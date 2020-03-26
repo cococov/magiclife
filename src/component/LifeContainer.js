@@ -10,16 +10,22 @@ import Firebase from 'firebase';
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
-    margin: 100
+    margin: 32
   },
   title: {
     textTransform: 'uppercase',
     fontWeight: 'bold',
-    fontSize: 24,
+    fontSize: 24
   },
   life: {
     textTransform: 'uppercase',
-    fontSize: 64,
+    fontSize: 64
+  },
+  cup: {
+    fontSize: 18,
+  },
+  carrot: {
+    fontSize: 18,
   },
   minus: {
     textTransform: 'uppercase',
@@ -36,36 +42,54 @@ const useStyles = makeStyles({
   },
 });
 
-const LifeContainer = ({ user }) => {
+const LifeContainer = ({ player }) => {
   const classes = useStyles();
+  const [cup, setCup] = useState(0);
   const [life, setLife] = useState(40);
+  const [name, setName] = useState('NoName');
+  // eslint-disable-next-line
+  const [color, setColor] = useState('#FFFFFF');
+  const [carrot, setCarrot] = useState(0);
+  // eslint-disable-next-line
+  const [textColor, setTextColor] = useState('#000000');
 
   useEffect(() => {
-    let ref = Firebase.database().ref(user);
+    let ref = Firebase.database().ref(`player${player}`);
     ref.on('value', snapshot => {
       const result = snapshot.val();
-      setLife(result);
+      setLife(result.life);
+      setName(result.name);
+      setCup(result.cup);
+      setColor(result.color);
+      setCarrot(result.carrot);
+      setTextColor(result.textColor);
     });
-  }, [user]);
+  }, [player]);
 
   const handlePressPlus = () => {
-    let ref = Firebase.database().ref(user);
+    let ref = Firebase.database().ref(`player${player}`).child('life');
     ref.set((life + 1));
   };
 
   const handlePressMinus = () => {
-    let ref = Firebase.database().ref(user);
+    let ref = Firebase.database().ref(`player${player}`).child('life');
     ref.set((life - 1));
   };
 
   return (
-    <Card className={classes.root} variant="outlined">
+    <Card className={classes.root} style={{ backgroundColor: color, textColor: textColor }} variant="outlined">
       <CardContent>
         <Typography className={classes.title} gutterBottom>
-          {user}
+          {name}
         </Typography>
         <Typography className={classes.life} component="p">
           {life}
+        </Typography>
+        <Typography className={classes.cup} align="left">
+          {`Copas: ${cup}`}
+        </Typography>
+        <Typography className={classes.carrot} align="left">
+          {`Zanahorias: ${carrot}`}
         </Typography>
       </CardContent>
       <CardActions className={classes.actionContainer}>
