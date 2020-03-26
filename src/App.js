@@ -167,7 +167,7 @@ const App = () => {
           </div>
           <Divider />
           <div className={classes.modalContent}>
-            <TextField className={classes.textInput} id="outlined-basic" label="Nombre" variant="outlined" value={modalName} onChange={(e) => setModalPlayer(e.target.value)} />
+            <TextField className={classes.textInput} id="outlined-basic" label="Nombre" variant="outlined" value={modalName} onChange={(e) => setModalName(e.target.value)} />
             <TextField className={classes.textInput} id="outlined-basic" label="Color de fondo" variant="outlined" value={modalColor} onChange={(e) => setModalColor(e.target.value)} />
             <TextField className={classes.textInput} id="outlined-basic" label="Color de texto" variant="outlined" value={modalTextColor} onChange={(e) => setModalTextColor(e.target.value)} />
             <Button className={classes.modalButton} variant="contained" color="primary" onClick={handleAceptModal}>
