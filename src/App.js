@@ -20,6 +20,10 @@ import AssignmentIcon from '@material-ui/icons/Assignment';
 import Modal from '@material-ui/core/Modal';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -105,6 +109,14 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column'
   },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+    marginTop: 32
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
 }));
 
 Firebase.initializeApp(firebaseConfig);
@@ -112,11 +124,15 @@ Firebase.initializeApp(firebaseConfig);
 const App = () => {
   const classes = useStyles();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [idOpenModal, setIsOpenModal] = useState(false);
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [isOpenGameModal, setIsOpenGameModal] = useState(false);
   const [modalPlayer, setModalPlayer] = useState(1);
   const [modalName, setModalName] = useState(1);
   const [modalColor, setModalColor] = useState(1);
   const [modalTextColor, setModalTextColor] = useState(1);
+  const [GameModalCup, setGameModalCup] = useState(0);
+  const [GameModalCarrot, setGameModalCarrot] = useState(0);
+  const [GameModalSnail, setGameModalSnail] = useState(0);
 
   const handleDrawerOpen = () => {
     setIsDrawerOpen(true);
@@ -138,8 +154,16 @@ const App = () => {
     setIsOpenModal(true);
   };
 
+  const handleGameModalOpen = () => {
+    setIsOpenGameModal(true);
+  };
+
   const handleModalClose = () => {
     setIsOpenModal(false);
+  };
+
+  const handleGameModalClose = () => {
+    setIsOpenGameModal(false);
   };
 
   const handleAceptModal = () => {
@@ -152,11 +176,45 @@ const App = () => {
     handleModalClose();
   };
 
+  const handleAceptGameModal = () => {
+    let actualCups = 0;
+    let actualCarrots = 0;
+    let actualSnails = 0;
+    if (GameModalCup !== 0) {
+      let ref1 = Firebase.database().ref(`player${GameModalCup}`);
+      ref1.on('value', snapshot => {
+        const result = snapshot.val();
+        actualCups = result.cup;
+      });
+      let cup = Firebase.database().ref(`player${GameModalCup}`).child('cup');
+      cup.set((actualCups + 1));
+    }
+    if (GameModalCarrot !== 0) {
+      let ref2 = Firebase.database().ref(`player${GameModalCarrot}`);
+      ref2.on('value', snapshot => {
+        const result = snapshot.val();
+        actualCarrots = result.carrot;
+      });
+      let carrot = Firebase.database().ref(`player${GameModalCarrot}`).child('carrot');
+      carrot.set((actualCarrots + 1));
+    }
+    if (GameModalSnail !== 0) {
+      let ref3 = Firebase.database().ref(`player${GameModalSnail}`);
+      ref3.on('value', snapshot => {
+        const result = snapshot.val();
+        actualSnails = result.snail;
+      });
+      let snail = Firebase.database().ref(`player${GameModalSnail}`).child('snail');
+      snail.set((actualSnails + 1));
+    }
+    handleGameModalClose();
+  };
+
   return (
     <div className="App">
       <Modal
         className={classes.modal}
-        open={idOpenModal}
+        open={isOpenModal}
         onClose={handleModalClose}
       >
         <div className={classes.paper}>
@@ -172,6 +230,55 @@ const App = () => {
             <TextField className={classes.textInput} id="outlined-basic" label="Color de texto" variant="outlined" value={modalTextColor} onChange={(e) => setModalTextColor(e.target.value)} />
             <Button className={classes.modalButton} variant="contained" color="primary" onClick={handleAceptModal}>
               ACEPTAR
+            </Button>
+          </div>
+        </div>
+      </Modal>
+      <Modal
+        className={classes.modal}
+        open={isOpenGameModal}
+        onClose={handleGameModalClose}
+      >
+        <div className={classes.paper}>
+          <div className={classes.modalTitle}>
+            <Typography className={classes.title} align="left">
+              {`Finalizar Partida`}
+            </Typography>
+          </div>
+          <Divider />
+          <div className={classes.modalContent}>
+            <FormControl className={classes.formControl}>
+              <InputLabel>Copa</InputLabel>
+              <Select label="Copa" value={GameModalCup} onChange={(e) => setGameModalCup(e.target.value)} >
+                <MenuItem value={0}>Nadie</MenuItem>
+                <MenuItem value={1}>Player1</MenuItem>
+                <MenuItem value={2}>Player2</MenuItem>
+                <MenuItem value={3}>Player3</MenuItem>
+                <MenuItem value={4}>Player4</MenuItem>
+              </Select>
+            </FormControl>
+            <FormControl className={classes.formControl}>
+              <InputLabel>Zanahoria</InputLabel>
+              <Select label="Zanahoria" value={GameModalCarrot} onChange={(e) => setGameModalCarrot(e.target.value)} >
+                <MenuItem value={0}>Nadie</MenuItem>
+                <MenuItem value={1}>Player1</MenuItem>
+                <MenuItem value={2}>Player2</MenuItem>
+                <MenuItem value={3}>Player3</MenuItem>
+                <MenuItem value={4}>Player4</MenuItem>
+              </Select>
+            </FormControl>
+            <FormControl className={classes.formControl}>
+              <InputLabel>Caracol</InputLabel>
+              <Select label="Caracol" value={GameModalSnail} onChange={(e) => setGameModalSnail(e.target.value)} >
+                <MenuItem value={0}>Nadie</MenuItem>
+                <MenuItem value={1}>Player1</MenuItem>
+                <MenuItem value={2}>Player2</MenuItem>
+                <MenuItem value={3}>Player3</MenuItem>
+                <MenuItem value={4}>Player4</MenuItem>
+              </Select>
+            </FormControl>
+            <Button className={classes.modalButton} variant="contained" color="primary" onClick={handleAceptGameModal}>
+              FINALIZAR PARTIDA
             </Button>
           </div>
         </div>
@@ -214,7 +321,7 @@ const App = () => {
             </List>
             <Divider />
             <List>
-              <ListItem button>
+              <ListItem button onClick={handleGameModalOpen} >
                 <ListItemIcon><AssignmentIcon /></ListItemIcon>
                 <ListItemText primary={'Finalizar Juego'} />
               </ListItem>
@@ -222,7 +329,7 @@ const App = () => {
           </div>
         </Drawer>
       </React.Fragment>
-    </div>
+    </div >
   );
 }
 

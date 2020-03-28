@@ -47,10 +47,9 @@ const LifeContainer = ({ player }) => {
   const [cup, setCup] = useState(0);
   const [life, setLife] = useState(40);
   const [name, setName] = useState('NoName');
-  // eslint-disable-next-line
   const [color, setColor] = useState('#FFFFFF');
+  const [snail, setSnail] = useState(0);
   const [carrot, setCarrot] = useState(0);
-  // eslint-disable-next-line
   const [textColor, setTextColor] = useState('#000000');
 
   useEffect(() => {
@@ -61,6 +60,7 @@ const LifeContainer = ({ player }) => {
       setName(result.name);
       setCup(result.cup);
       setColor(result.color);
+      setSnail(result.snail);
       setCarrot(result.carrot);
       setTextColor(result.textColor);
     });
@@ -77,7 +77,7 @@ const LifeContainer = ({ player }) => {
   };
 
   return (
-    <Card className={classes.root} style={{ backgroundColor: color, textColor: textColor }} variant="outlined">
+    <Card className={classes.root} style={{ backgroundColor: color, color: textColor }} variant="outlined">
       <CardContent>
         <Typography className={classes.title} gutterBottom>
           {name}
@@ -86,10 +86,13 @@ const LifeContainer = ({ player }) => {
           {life}
         </Typography>
         <Typography className={classes.cup} align="left">
-          {`Copas: ${cup}`}
+          {`🏆: ${cup}`}
         </Typography>
         <Typography className={classes.carrot} align="left">
-          {`Zanahorias: ${carrot}`}
+          {`🥕: ${carrot}`}
+        </Typography>
+        <Typography className={classes.carrot} align="left">
+          {`🐌: ${snail}`}
         </Typography>
       </CardContent>
       <CardActions className={classes.actionContainer}>
