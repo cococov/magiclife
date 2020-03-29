@@ -4,7 +4,7 @@ This project if for Magic game purposes, to count the life of every player and t
 
 
 ## Start Local Server
-npm start
+> npm start
 
 Runs the app in the development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
