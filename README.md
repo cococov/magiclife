@@ -4,7 +4,6 @@ This project if for Magic game purposes, to count the life of every player and t
 
 
 ## Start Local Server
-# RN >= 0.60
 npm start
 
 Runs the app in the development mode.<br />
