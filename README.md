@@ -4,6 +4,10 @@ This project if for Magic game purposes, to count the life of every player and t
 
 [try the app here](https://cococov.github.io/magiclife/)
 
+## Tecnologies used
+- React.js ⚛
+- Firebase 🔥
+
 ## Start Local Server
 ```
  npm start
