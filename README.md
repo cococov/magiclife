@@ -2,6 +2,7 @@
 
 This project if for Magic game purposes, to count the life of every player and trace the winrate.
 
+[try the app here](https://cococov.github.io/magiclife/)
 
 ## Start Local Server
 ```
