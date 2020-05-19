@@ -1,6 +1,6 @@
 # Magic Life 🃏
 
-This project if for Magic game purposes, to count the life of every player and trace the winrate.
+This project is for Magic game purposes, to count the life of every player and trace the winrate.
 
 [Try the app here](https://cococov.github.io/magiclife/)
 
