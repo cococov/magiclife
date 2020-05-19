@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Magic Life",
+  "name": "Magic life counter",
   "icons": [
     {
       "src": "favicon.ico",
