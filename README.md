@@ -22,6 +22,7 @@ You will also see any lint errors in the console.
 ## TODO 🚀
 - Re-Start Game
 - Support diferent games (20 life, 40 life, 2 players, 4, etc)
-- Make profiles instead 4 static players
-- Make instances of game where the creator select the user to play agains and after that chare a hash with his/her oponents
+- Make profiles instead of 4 static players
+- Make instances of game where the creator select the users to play against and after that share a hash with his/her oponents
 - Make an account system
+- Game history
