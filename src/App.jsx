@@ -106,7 +106,15 @@ const App = () => {
       let snail = Firebase.database().ref(`player${GameModalSnail}`).child('snail');
       snail.set((actualSnails + 1));
     }
+    resetGame();
     handleCloseGameModal();
+  };
+
+  const resetGame = () => {
+    for (let i = 1; i <= 4; i++) {
+      let ref = Firebase.database().ref(`player${i}`).child('life');
+      ref.set(40);
+    }
   };
 
   return (
