@@ -20,9 +20,12 @@ The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
 
 ## TODO 🚀
-- Re-Start Game
+- ~Re-Start Game~
 - Support diferent games (20 life, 40 life, 2 players, 4, etc)
 - Make profiles instead of 4 static players
 - Make instances of game where the creator select the users to play against and after that share a hash with his/her oponents
 - Make an account system
 - Game history
+- Game log
+- Timer
+- Use player nicknames instead playerN° on finish game selects
