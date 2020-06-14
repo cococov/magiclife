@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import {
   Modal,
@@ -11,24 +11,27 @@ import {
   FormControl
 } from '@material-ui/core';
 import { endGameModal } from '../styles';
+import { AppContext } from '../stores';
 
-const EndGameModal = withStyles(endGameModal)(({
-  classes,
-  isOpenGameModal,
-  GameModalCup,
-  GameModalSnail,
-  GameModalCarrot,
-  setGameModalCup,
-  setGameModalSnail,
-  setGameModalCarrot,
-  handleAceptModal,
-  handleCloseModal,
-}) => {
+const EndGameModal = withStyles(endGameModal)(({ classes }) => {
+  const {
+    users,
+    isOpenGameModal,
+    GameModalCup,
+    GameModalSnail,
+    GameModalCarrot,
+    setGameModalCup,
+    setGameModalSnail,
+    setGameModalCarrot,
+    handleAceptGameModal,
+    handleCloseGameModal,
+  } = useContext(AppContext);
+
   return (
     <Modal
       open={isOpenGameModal}
       className={classes.modal}
-      onClose={handleCloseModal}
+      onClose={handleCloseGameModal}
     >
       <div className={classes.paper}>
         <div className={classes.modalTitle}>
@@ -48,10 +51,10 @@ const EndGameModal = withStyles(endGameModal)(({
               onChange={(e) => setGameModalCup(e.target.value)}
             >
               <MenuItem value={0}>Nadie</MenuItem>
-              <MenuItem value={1}>Player1</MenuItem>
-              <MenuItem value={2}>Player2</MenuItem>
-              <MenuItem value={3}>Player3</MenuItem>
-              <MenuItem value={4}>Player4</MenuItem>
+              <MenuItem value={1}>{users[0]}</MenuItem>
+              <MenuItem value={2}>{users[1]}</MenuItem>
+              <MenuItem value={3}>{users[2]}</MenuItem>
+              <MenuItem value={4}>{users[3]}</MenuItem>
             </Select>
           </FormControl>
 
@@ -63,10 +66,10 @@ const EndGameModal = withStyles(endGameModal)(({
               onChange={(e) => setGameModalCarrot(e.target.value)}
             >
               <MenuItem value={0}>Nadie</MenuItem>
-              <MenuItem value={1}>Player1</MenuItem>
-              <MenuItem value={2}>Player2</MenuItem>
-              <MenuItem value={3}>Player3</MenuItem>
-              <MenuItem value={4}>Player4</MenuItem>
+              <MenuItem value={1}>{users[0]}</MenuItem>
+              <MenuItem value={2}>{users[1]}</MenuItem>
+              <MenuItem value={3}>{users[2]}</MenuItem>
+              <MenuItem value={4}>{users[3]}</MenuItem>
             </Select>
           </FormControl>
 
@@ -78,10 +81,10 @@ const EndGameModal = withStyles(endGameModal)(({
               onChange={(e) => setGameModalSnail(e.target.value)}
             >
               <MenuItem value={0}>Nadie</MenuItem>
-              <MenuItem value={1}>Player1</MenuItem>
-              <MenuItem value={2}>Player2</MenuItem>
-              <MenuItem value={3}>Player3</MenuItem>
-              <MenuItem value={4}>Player4</MenuItem>
+              <MenuItem value={1}>{users[0]}</MenuItem>
+              <MenuItem value={2}>{users[1]}</MenuItem>
+              <MenuItem value={3}>{users[2]}</MenuItem>
+              <MenuItem value={4}>{users[3]}</MenuItem>
             </Select>
           </FormControl>
 
@@ -89,10 +92,10 @@ const EndGameModal = withStyles(endGameModal)(({
             className={classes.modalButton}
             variant="contained"
             color="primary"
-            onClick={handleAceptModal}
+            onClick={handleAceptGameModal}
           >
             FINALIZAR PARTIDA
-            </Button>
+          </Button>
         </div>
       </div>
     </Modal>
