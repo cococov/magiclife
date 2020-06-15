@@ -6,28 +6,20 @@ import { AppContext } from '../stores';
 
 const UserConfigModal = withStyles(userConfigModal)(({ classes }) => {
   const {
-    isOpenUserModal,
-    modalName,
-    modalColor,
-    modalPlayer,
-    modalTextColor,
-    setModalName,
-    setModalColor,
-    setModalTextColor,
-    handleAceptUserConfigModal,
-    handleCloseUserConfigModal
+    userConfigState,
+    dispatchUserConfig
   } = useContext(AppContext);
 
   return (
     <Modal
       className={classes.modal}
-      open={isOpenUserModal}
-      onClose={handleCloseUserConfigModal}
+      open={userConfigState.isOpenUserModal}
+      onClose={() => dispatchUserConfig({ type: 'CLOSE' })}
     >
       <div className={classes.paper}>
         <div className={classes.modalTitle}>
           <Typography className={classes.title} align="left">
-            {`Player ${modalPlayer}`}
+            {`Player ${userConfigState.modalPlayer}`}
           </Typography>
         </div>
         <Divider />
@@ -37,30 +29,45 @@ const UserConfigModal = withStyles(userConfigModal)(({ classes }) => {
             id="outlined-basic"
             label="Nombre"
             variant="outlined"
-            value={modalName}
-            onChange={(e) => setModalName(e.target.value)}
+            value={userConfigState.modalName}
+            onChange={
+              (e) => dispatchUserConfig({
+                type: 'modalName',
+                value: e.target.value
+              })
+            }
           />
           <TextField
             className={classes.textInput}
             id="outlined-basic"
             label="Color de fondo"
             variant="outlined"
-            value={modalColor}
-            onChange={(e) => setModalColor(e.target.value)}
+            value={userConfigState.modalColor}
+            onChange={
+              (e) => dispatchUserConfig({
+                type: 'modalColor',
+                value: e.target.value
+              })
+            }
           />
           <TextField
             className={classes.textInput}
             id="outlined-basic"
             label="Color de texto"
             variant="outlined"
-            value={modalTextColor}
-            onChange={(e) => setModalTextColor(e.target.value)}
+            value={userConfigState.modalTextColor}
+            onChange={
+              (e) => dispatchUserConfig({
+                type: 'modalTextColor',
+                value: e.target.value
+              })
+            }
           />
           <Button
             className={classes.modalButton}
             variant="contained"
             color="primary"
-            onClick={handleAceptUserConfigModal}
+            onClick={() => dispatchUserConfig({ type: 'ACCEPT' })}
           >
             ACEPTAR
           </Button>

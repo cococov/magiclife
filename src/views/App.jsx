@@ -1,5 +1,5 @@
 import React from 'react';
-import Firebase from 'firebase';
+import { initializeApp } from 'firebase';
 import { firebaseConfig } from '../static/config.json';
 import {
   Drawer,
@@ -11,7 +11,7 @@ import {
 import { AppProvider } from '../stores';
 import '../static/css/App.css';
 
-Firebase.initializeApp(firebaseConfig);
+initializeApp(firebaseConfig);
 
 const App = () => {
   return (

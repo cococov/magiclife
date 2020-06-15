@@ -16,22 +16,15 @@ import { AppContext } from '../stores';
 const EndGameModal = withStyles(endGameModal)(({ classes }) => {
   const {
     users,
-    isOpenGameModal,
-    GameModalCup,
-    GameModalSnail,
-    GameModalCarrot,
-    setGameModalCup,
-    setGameModalSnail,
-    setGameModalCarrot,
-    handleAceptGameModal,
-    handleCloseGameModal,
+    gameEndState,
+    dispatchGameEnd
   } = useContext(AppContext);
 
   return (
     <Modal
-      open={isOpenGameModal}
+      open={gameEndState.isOpenGameModal}
       className={classes.modal}
-      onClose={handleCloseGameModal}
+      onClose={() => dispatchGameEnd({ type: 'CLOSE' })}
     >
       <div className={classes.paper}>
         <div className={classes.modalTitle}>
@@ -47,8 +40,13 @@ const EndGameModal = withStyles(endGameModal)(({ classes }) => {
             <InputLabel>Copa</InputLabel>
             <Select
               label="Copa"
-              value={GameModalCup}
-              onChange={(e) => setGameModalCup(e.target.value)}
+              value={gameEndState.gameModalCup}
+              onChange={
+                (e) => dispatchGameEnd({
+                  type: 'gameModalCup',
+                  value: e.target.value
+                })
+              }
             >
               <MenuItem value={0}>Nadie</MenuItem>
               <MenuItem value={1}>{users[0]}</MenuItem>
@@ -62,8 +60,13 @@ const EndGameModal = withStyles(endGameModal)(({ classes }) => {
             <InputLabel>Zanahoria</InputLabel>
             <Select
               label="Zanahoria"
-              value={GameModalCarrot}
-              onChange={(e) => setGameModalCarrot(e.target.value)}
+              value={gameEndState.gameModalCarrot}
+              onChange={
+                (e) => dispatchGameEnd({
+                  type: 'gameModalCarrot',
+                  value: e.target.value
+                })
+              }
             >
               <MenuItem value={0}>Nadie</MenuItem>
               <MenuItem value={1}>{users[0]}</MenuItem>
@@ -77,8 +80,13 @@ const EndGameModal = withStyles(endGameModal)(({ classes }) => {
             <InputLabel>Caracol</InputLabel>
             <Select
               label="Caracol"
-              value={GameModalSnail}
-              onChange={(e) => setGameModalSnail(e.target.value)}
+              value={gameEndState.gameModalSnail}
+              onChange={
+                (e) => dispatchGameEnd({
+                  type: 'gameModalSnail',
+                  value: e.target.value
+                })
+              }
             >
               <MenuItem value={0}>Nadie</MenuItem>
               <MenuItem value={1}>{users[0]}</MenuItem>
@@ -92,13 +100,13 @@ const EndGameModal = withStyles(endGameModal)(({ classes }) => {
             className={classes.modalButton}
             variant="contained"
             color="primary"
-            onClick={handleAceptGameModal}
+            onClick={() => dispatchGameEnd({ type: 'ACCEPT' })}
           >
             FINALIZAR PARTIDA
           </Button>
         </div>
       </div>
-    </Modal>
+    </Modal >
   );
 });
 

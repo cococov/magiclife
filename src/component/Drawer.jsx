@@ -18,23 +18,23 @@ import { AppContext } from '../stores';
 
 const CustomDrawer = withStyles(drawer)(({ classes }) => {
   const {
-    isDrawerOpen,
-    handleCloseDrawer,
-    handleOpenGameModal,
-    handleOpenUserConfigModal
+    drawerState,
+    dispatchDrawer,
+    dispatchGameEnd,
+    dispatchUserConfig
   } = useContext(AppContext);
 
   return (
     <Fragment key="left">
       <Drawer
         anchor="left"
-        open={isDrawerOpen}
-        onClose={handleCloseDrawer}
+        open={drawerState.isOpenDrawer}
+        onClose={() => dispatchDrawer({ type: 'CLOSE' })}
       >
         <div
           role="presentation"
-          onClick={handleCloseDrawer}
-          onKeyDown={handleCloseDrawer}
+          onClick={() => dispatchDrawer({ type: 'CLOSE' })}
+          onKeyDown={() => dispatchDrawer({ type: 'CLOSE' })}
           className={classes.drawerBase}
         >
           <List>
@@ -56,7 +56,7 @@ const CustomDrawer = withStyles(drawer)(({ classes }) => {
               <ListItem
                 button
                 key={text}
-                onClick={() => handleOpenUserConfigModal(index + 1)}
+                onClick={() => dispatchUserConfig({ type: 'OPEN', player: (index + 1) })}
               >
                 <ListItemIcon>
                   <PeopleIcon />
@@ -72,7 +72,7 @@ const CustomDrawer = withStyles(drawer)(({ classes }) => {
           <List>
             <ListItem
               button
-              onClick={handleOpenGameModal}
+              onClick={() => dispatchGameEnd({ type: 'OPEN' })}
             >
               <ListItemIcon>
                 <AssignmentIcon />

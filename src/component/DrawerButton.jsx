@@ -7,14 +7,14 @@ import { AppContext } from '../stores';
 import clsx from 'clsx';
 
 const DrawerButton = withStyles(drawer)(({ classes }) => {
-  const { handleOpenDrawer } = useContext(AppContext);
+  const { dispatchDrawer } = useContext(AppContext);
 
   return (
     <Fragment>
       <Fab
         color="inherit"
         aria-label="Expand"
-        onClick={handleOpenDrawer}
+        onClick={() => dispatchDrawer({ type: 'OPEN' })}
         className={clsx(classes.fab, classes.fabOrange)}
       >
         <AddIcon />

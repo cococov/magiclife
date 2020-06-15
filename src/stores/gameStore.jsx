@@ -1,5 +1,5 @@
 import React, { createContext, useState, useCallback } from 'react';
-import Firebase from 'firebase';
+import { database } from 'firebase';
 
 /**
  * Game Context.
@@ -17,7 +17,9 @@ export const GameProvider = ({ children }) => {
 
   const resetGame = useCallback(() => {
     for (let i = 1; i <= 4; i++) {
-      let ref = Firebase.database().ref(`player${i}`).child('life');
+      let ref = database()
+        .ref(`player${i}`)
+        .child('life');
       ref.set(40);
     }
   }, []);
