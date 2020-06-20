@@ -2,20 +2,34 @@
 <html lang="en">
 
 <head>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-169836628-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-169836628-1');
+  </script>
+
   <meta charset="utf-8" />
   <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#000000" />
   <meta property="og:image" content="%PUBLIC_URL%/img/og.png">
+  <meta property="og:title" content="Magic Life">
+  <meta property="og:url" content="https://juanlamas.dev/magiclife/">
+  <meta property="og:description" content="Life counter for Magic The Gathering." />
   <meta name="description" content="Life counter for Magic The Gathering." />
-  <meta name="keywords" content="Juan, Carlos, Lamas, Alfaro, React, Magic, Gathering, MagicTheGathering, magicthegathering, magic">
+  <meta name="keywords"
+    content="Juan, Carlos, Lamas, Alfaro, React, Magic, Gathering, MagicTheGathering, magicthegathering, magic">
   <meta name="author" content="Juan Carlos Lamas Alfaro">
   <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
   <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
   <title>Magic Life</title>
 </head>
 
-<body>
+<body style="background-color: #282c34;">
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <div id="root"></div>
 </body>

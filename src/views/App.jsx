@@ -6,7 +6,7 @@ import {
   Content,
   EndGameModal,
   DrawerButton,
-  UserConfigModal
+  UserConfigModal,
 } from '../component';
 import { AppProvider } from '../stores';
 import '../static/css/App.css';

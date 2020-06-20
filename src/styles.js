@@ -199,6 +199,20 @@ export const content = theme => ({
   },
 });
 
+export const timer = theme => ({
+  button: {
+    fontSize: '2rem',
+    minWidth: '10rem',
+    minHeight: '5rem',
+    alignSelf: 'center',
+    backgroundColor: primaryColor.light,
+    color: primaryColor.text,
+    '&:hover': {
+      backgroundColor: primaryColor.main,
+    },
+  }
+});
+
 const stylesheet = {};
 
 export default stylesheet;
