@@ -25,3 +25,4 @@ yarn-error.log*
 
 # secret
 /src/static/config.json
+db.json

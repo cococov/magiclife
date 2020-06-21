@@ -1,7 +1,7 @@
 import { database } from 'firebase';
 
 /* Initial State */
-const gameInitialState = { start: false };
+const gameInitialState = { start: false, initialDate: (new Date()) };
 
 /**
  * Player reducer
@@ -12,10 +12,18 @@ const gameInitialState = { start: false };
 const gameReducer = (state, { type, ...params }) => {
   switch (type) {
     case 'START':
-      return { ...state, start: true }
-      case 'STOP':
-        resetGame();
+      let date = new Date();
+      sendDate(date);
+      sendIsStarted(true);
+      return { ...state, start: true, initialDate: date }
+    case 'STOP':
+      sendIsStarted(false);
+      resetGame();
       return { ...state, start: false }
+    case 'isStarted':
+      return { ...state, start: params.value }
+    case 'initialDate':
+      return { ...state, initialDate: params.value }
     default:
       throw new Error(`Unhandled action type: ${type}`)
   }
@@ -32,6 +40,20 @@ const resetGame = async () => {
       .child('life');
     ref.set(40);
   }
+};
+
+const sendDate = async date => {
+  let strDate = date.toString();
+
+  let ref = database()
+    .ref(`initialDate`)
+  ref.set(strDate);
+};
+
+const sendIsStarted = async value => {
+  let ref = database()
+    .ref(`isStarted`)
+  ref.set(value);
 };
 
 
