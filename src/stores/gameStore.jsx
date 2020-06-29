@@ -1,9 +1,11 @@
 import React, {
+  useRef,
   useState,
   useEffect,
   useReducer,
   useCallback,
-  createContext
+  createContext,
+  useLayoutEffect
 } from 'react';
 import { database } from 'firebase';
 import { gameReducer, gameInitialState } from './reducer'
@@ -34,19 +36,20 @@ const getFormatDate = difference => {
  * @param {Object} props
  * @param {Component} props.children
  */
-let timerInterval = null;
 export const GameProvider = ({ children }) => {
   const [game, dispatchGame] = useReducer(gameReducer, gameInitialState);
   const [time, setTime] = useState('00:00:00');
+  const intervalRef = useRef();
 
   /* timer logic:
       changes time every second.
   */
   const timer = useCallback(() => {
-    timerInterval = setInterval(() => {
+    let timerInterval = setInterval(() => {
       let diff = (new Date()).getTime() - game.initialDate.getTime();
       setTime(getFormatDate(diff));
     }, 1000);
+    intervalRef.current = timerInterval;
   }, [game.initialDate]);
 
   /* request and suscribe to isStarted:
@@ -63,7 +66,7 @@ export const GameProvider = ({ children }) => {
   /* request and suscribe to initialDate:
       changes initialDate when it changes on backend (for sync purpuses).
   */
-  useEffect(() => {
+  useLayoutEffect(() => {
     let ref = database().ref(`initialDate`);
     ref.on('value', snapshot => {
       const result = snapshot.val();
@@ -76,10 +79,10 @@ export const GameProvider = ({ children }) => {
      clear the timer and restart time when start is false.
   */
   useEffect(() => {
+    clearInterval(intervalRef.current);
     if (game.start) {
       timer();
     } else {
-      clearInterval(timerInterval);
       setTime('00:00:00');
     }
   }, [game.start, timer]);
