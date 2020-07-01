@@ -1,10 +1,13 @@
 import React, {
+  useRef,
   useEffect,
   useReducer,
+  useContext,
   createContext
 } from 'react';
 import { database } from 'firebase';
-import { playerReducer, playerInitialState } from './reducer'
+import { playerReducer, playerInitialState } from './reducer';
+import { GameContext } from '../stores';
 
 /**
  * Player Context.
@@ -18,6 +21,8 @@ const PlayerContext = createContext();
  */
 export const PlayerProvider = ({ children, player }) => {
   const [playerState, dispatchPlayer] = useReducer(playerReducer, playerInitialState);
+  const { game, dispatchGame } = useContext(GameContext);
+  const previousLife = useRef();
 
   useEffect(() => {
     let ref = database().ref(`player${player}`);
@@ -34,9 +39,32 @@ export const PlayerProvider = ({ children, player }) => {
     });
   }, [player]);
 
+  useEffect(() => {
+    let previousValue = previousLife.current;
+    let actualValue = playerState.life;
+
+    if (previousValue && game.start) {
+      if (previousValue < actualValue)
+        dispatchGame({ type: 'ADD_LOG_LINE', value: `[${game.time}] ${playerState.name} | +1 Life` });
+      if (previousValue > actualValue)
+        dispatchGame({ type: 'ADD_LOG_LINE', value: `[${game.time}] ${playerState.name} | -1 Life` });
+    }
+    previousLife.current = playerState.life;
+  }, [playerState.life])
+
+  const plusLife = () => {
+    if (game.start)
+      dispatchPlayer({ type: 'PLUS_LIFE' });
+  };
+
+  const minusLife = () => {
+    if (game.start)
+      dispatchPlayer({ type: 'MINUS_LIFE' });
+  };
+
   return (
     <PlayerContext.Provider
-      value={{ playerState, dispatchPlayer }}
+      value={{ playerState, plusLife, minusLife }}
     >
       {children}
     </PlayerContext.Provider>

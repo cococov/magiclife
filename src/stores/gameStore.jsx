@@ -1,6 +1,5 @@
 import React, {
   useRef,
-  useState,
   useEffect,
   useReducer,
   useCallback,
@@ -38,7 +37,6 @@ const getFormatDate = difference => {
  */
 export const GameProvider = ({ children }) => {
   const [game, dispatchGame] = useReducer(gameReducer, gameInitialState);
-  const [time, setTime] = useState('00:00:00');
   const intervalRef = useRef();
 
   /* timer logic:
@@ -47,7 +45,7 @@ export const GameProvider = ({ children }) => {
   const timer = useCallback(() => {
     let timerInterval = setInterval(() => {
       let diff = (new Date()).getTime() - game.initialDate.getTime();
-      setTime(getFormatDate(diff));
+      dispatchGame({ type: 'time', value: getFormatDate(diff) });
     }, 1000);
     intervalRef.current = timerInterval;
   }, [game.initialDate]);
@@ -83,13 +81,13 @@ export const GameProvider = ({ children }) => {
     if (game.start) {
       timer();
     } else {
-      setTime('00:00:00');
+      dispatchGame({ type: 'RESET_TIME' });
     }
   }, [game.start, timer]);
 
   return (
     <GameContext.Provider
-      value={{ time, game, dispatchGame }}
+      value={{ game, dispatchGame }}
     >
       {children}
     </GameContext.Provider>

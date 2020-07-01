@@ -1,7 +1,12 @@
 import { database } from 'firebase';
 
 /* Initial State */
-const gameInitialState = { start: false, initialDate: (new Date()) };
+const gameInitialState = {
+  start: false,
+  initialDate: (new Date()),
+  time: '00:00:00',
+  log: []
+};
 
 /**
  * Player reducer
@@ -10,8 +15,10 @@ const gameInitialState = { start: false, initialDate: (new Date()) };
  * @param {Object} action.params - params for the action
  */
 const gameReducer = (state, { type, ...params }) => {
+  let newLog = [];
   switch (type) {
     case 'START':
+      resetGame();
       let date = new Date();
       sendDate(date);
       sendIsStarted(true);
@@ -20,8 +27,18 @@ const gameReducer = (state, { type, ...params }) => {
       sendIsStarted(false);
       resetGame();
       return { ...state, start: false }
+    case 'RESET_TIME':
+      return { ...state, time: '00:00:00' }
+    case 'ADD_LOG_LINE':
+      newLog = [...state.log, params.value];
+      return { ...state, log: newLog }
+    case 'time':
+      return { ...state, time: params.value }
     case 'isStarted':
-      return { ...state, start: params.value }
+      newLog = params.value ?
+        [`[${state.time}] GAME STARTED`] :
+        [...state.log, `[${state.time}] GAME STOPPED`];
+      return { ...state, start: params.value, log: newLog }
     case 'initialDate':
       return { ...state, initialDate: params.value }
     default:

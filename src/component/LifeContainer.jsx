@@ -5,7 +5,7 @@ import { lifeContainer } from '../styles';
 import { PlayerContext } from '../stores';
 
 const LifeContainer = withStyles(lifeContainer)(({ classes }) => {
-  const { playerState, dispatchPlayer } = useContext(PlayerContext);
+  const { playerState, plusLife, minusLife } = useContext(PlayerContext);
 
   const { name, life, cups, carrots, snails, color, textColor } = playerState;
   return (
@@ -23,13 +23,13 @@ const LifeContainer = withStyles(lifeContainer)(({ classes }) => {
         <Typography className={classes.carrot} align="left">
           {`🥕: ${carrots}`}
         </Typography>
-        <Typography className={classes.carrot} align="left">
+        <Typography className={classes.snail} align="left">
           {`🐌: ${snails}`}
         </Typography>
       </CardContent>
       <CardActions className={classes.actionContainer}>
-        <Button size="small" className={classes.minus} onClick={() => dispatchPlayer({ type: 'MINUS_LIFE' })}>-</Button>
-        <Button size="small" className={classes.plus} onClick={() => dispatchPlayer({ type: 'PLUS_LIFE' })}>+</Button>
+        <Button size="small" className={classes.minus} onClick={minusLife}>-</Button>
+        <Button size="small" className={classes.plus} onClick={plusLife}>+</Button>
       </CardActions>
     </Card>
   );

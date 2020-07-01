@@ -30,32 +30,35 @@ export const baseStyles = {
 */
 export const lifeContainer = theme => ({
   root: {
-    minWidth: 275,
-    margin: 32
+    width: '17rem',
+    margin: '2rem'
   },
   title: {
     textTransform: 'uppercase',
     fontWeight: 'bold',
-    fontSize: 24
+    fontSize: '1.35rem'
   },
   life: {
     textTransform: 'uppercase',
-    fontSize: 64
+    fontSize: '4rem'
   },
   cup: {
-    fontSize: 18,
+    fontSize: '1.13rem',
   },
   carrot: {
-    fontSize: 18,
+    fontSize: '1.13rem',
+  },
+  snail: {
+    fontSize: '1.13rem',
   },
   minus: {
     textTransform: 'uppercase',
-    fontSize: 32,
+    fontSize: '2rem',
     flex: 2
   },
   plus: {
     textTransform: 'uppercase',
-    fontSize: 32,
+    fontSize: '2rem',
     flex: 2
   },
   actionContainer: {
@@ -78,7 +81,10 @@ export const userConfigModal = theme => ({
     backgroundColor: primaryColor.white,
     minWidth: 500,
     minHeight: 420,
-    borderRadius: 4
+    borderRadius: 4,
+    '&:focus': {
+      outline: 'none',
+    }
   },
   modalTitle: {
     flex: 1,
@@ -123,7 +129,10 @@ export const endGameModal = theme => ({
     backgroundColor: primaryColor.white,
     minWidth: 500,
     minHeight: 420,
-    borderRadius: 4
+    borderRadius: 4,
+    '&:focus': {
+      outline: 'none',
+    }
   },
   modalTitle: {
     flex: 1,
@@ -157,8 +166,8 @@ export const drawer = theme => ({
   },
   fab: {
     position: 'absolute',
-    bottom: theme.spacing(2),
-    right: theme.spacing(2),
+    bottom: '1rem',
+    right: '1rem'
   },
   fabOrange: {
     color: theme.palette.common.white,
@@ -177,13 +186,20 @@ export const content = theme => ({
     display: 'flex',
     flexDirection: 'column'
   },
-  subContainer1: {
+  lifeLogWrapper: {
     display: 'flex',
     flexDirection: 'row'
   },
-  subContainer2: {
+  subContainer1: {
+    flex: 3,
     display: 'flex',
-    flexDirection: 'row'
+    flexDirection: 'column',
+    alignItems: 'flex-end'
+  },
+  subContainer2: {
+    flex: 3,
+    display: 'flex',
+    flexDirection: 'column'
   },
   player1: {
     flex: 2,
@@ -197,6 +213,10 @@ export const content = theme => ({
   player4: {
     flex: 2
   },
+  left: {
+    flex: 3,
+    width: '28rem'
+  }
 });
 
 export const timer = theme => ({
@@ -210,6 +230,21 @@ export const timer = theme => ({
     '&:hover': {
       backgroundColor: primaryColor.main,
     },
+  }
+});
+
+export const matchLog = theme => ({
+  card: {
+    flex: 3,
+    borderRadius: '0.6rem',
+    padding: '0.5rem',
+    backgroundColor: primaryColor.light,
+    width: '28rem',
+    height: '40rem',
+    marginTop: '3rem',
+    textAlign: 'left',
+    fontSize: 'large',
+    overflowY: 'scroll'
   }
 });
 
