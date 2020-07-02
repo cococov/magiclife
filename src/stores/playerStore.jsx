@@ -21,7 +21,7 @@ const PlayerContext = createContext();
  */
 export const PlayerProvider = ({ children, player }) => {
   const [playerState, dispatchPlayer] = useReducer(playerReducer, playerInitialState);
-  const { game, dispatchGame } = useContext(GameContext);
+  const { game, addLogLine } = useContext(GameContext);
   const previousLife = useRef();
 
   useEffect(() => {
@@ -45,9 +45,9 @@ export const PlayerProvider = ({ children, player }) => {
 
     if (previousValue && game.start) {
       if (previousValue < actualValue)
-        dispatchGame({ type: 'ADD_LOG_LINE', value: `[${game.time}] ${playerState.name} | +1 Life` });
+        addLogLine(`[${game.time}] ${playerState.name} | +1 Life`);
       if (previousValue > actualValue)
-        dispatchGame({ type: 'ADD_LOG_LINE', value: `[${game.time}] ${playerState.name} | -1 Life` });
+        addLogLine(`[${game.time}] ${playerState.name} | -1 Life`);
     }
     previousLife.current = playerState.life;
   }, [playerState.life])

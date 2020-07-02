@@ -17,6 +17,7 @@ const EndGameModal = withStyles(endGameModal)(({ classes }) => {
   const {
     users,
     gameEndState,
+    onAcceptGameEnd,
     dispatchGameEnd
   } = useContext(AppContext);
 
@@ -100,7 +101,7 @@ const EndGameModal = withStyles(endGameModal)(({ classes }) => {
             className={classes.modalButton}
             variant="contained"
             color="primary"
-            onClick={() => dispatchGameEnd({ type: 'ACCEPT' })}
+            onClick={onAcceptGameEnd}
           >
             FINALIZAR PARTIDA
           </Button>

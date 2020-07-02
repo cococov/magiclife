@@ -39,7 +39,8 @@ export const GameProvider = ({ children }) => {
   const [game, dispatchGame] = useReducer(gameReducer, gameInitialState);
   const intervalRef = useRef();
 
-  /* timer logic:
+  /*
+    timer logic:
       changes time every second.
   */
   const timer = useCallback(() => {
@@ -50,7 +51,8 @@ export const GameProvider = ({ children }) => {
     intervalRef.current = timerInterval;
   }, [game.initialDate]);
 
-  /* request and suscribe to isStarted:
+  /*
+    request and suscribe to isStarted:
       changes start when it changes on backend.
   */
   useEffect(() => {
@@ -61,7 +63,8 @@ export const GameProvider = ({ children }) => {
     });
   }, []);
 
-  /* request and suscribe to initialDate:
+  /*
+    request and suscribe to initialDate:
       changes initialDate when it changes on backend (for sync purpuses).
   */
   useLayoutEffect(() => {
@@ -73,7 +76,8 @@ export const GameProvider = ({ children }) => {
     });
   }, []);
 
-  /* start timer when start changes to true and
+  /*
+    start timer when start changes to true and
      clear the timer and restart time when start is false.
   */
   useEffect(() => {
@@ -85,9 +89,47 @@ export const GameProvider = ({ children }) => {
     }
   }, [game.start, timer]);
 
+  useEffect(() => {
+    if (!game.start) {
+      let ref = database().ref(`endGameStats`);
+      ref.once('value', snapshot => {
+        const result = snapshot.val();
+        dispatchGame({ type: 'ADD_LOG_LINE', value: `[${game.time}] GAME STOPPED` });
+        let winnerLog = result.cup !== '' ? `Winner: ${result.cup}` : '';
+        let carrotLog = result.carrot !== '' ? `Had a bad day: ${result.carrot}` : '';
+        let snailLog = result.snail !== '' ? `Slow as fuck: ${result.snail}` : '';
+        (winnerLog !== '') && dispatchGame({ type: 'ADD_LOG_LINE', value: winnerLog });
+        (carrotLog !== '') && dispatchGame({ type: 'ADD_LOG_LINE', value: carrotLog });
+        (snailLog !== '') && dispatchGame({ type: 'ADD_LOG_LINE', value: snailLog });
+        dispatchGame({ type: 'CLEAN_GAME_END_STATS' });
+      });
+    }
+  }, [game.start])
+
+  /*
+    Add a new line to teh match log
+  */
+  const addLogLine = logLine => {
+    dispatchGame({ type: 'ADD_LOG_LINE', value: logLine });
+  };
+
+  /*
+    Finish the match
+  */
+  const finishGame = params => {
+    dispatchGame({ type: 'STOP', value: params });
+  };
+
+  /*
+    Start the match
+  */
+  const startGame = () => {
+    dispatchGame({ type: 'START' });
+  };
+
   return (
     <GameContext.Provider
-      value={{ game, dispatchGame }}
+      value={{ game, addLogLine, startGame, finishGame, dispatchGame }}
     >
       {children}
     </GameContext.Provider>

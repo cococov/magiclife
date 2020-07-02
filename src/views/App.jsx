@@ -8,22 +8,24 @@ import {
   DrawerButton,
   UserConfigModal,
 } from '../component';
-import { AppProvider } from '../stores';
+import { AppProvider, GameProvider } from '../stores';
 import '../static/css/App.css';
 
 initializeApp(firebaseConfig);
 
 const App = () => {
   return (
-    <AppProvider>
-      <div className="App">
-        <DrawerButton />
-        <UserConfigModal />
-        <EndGameModal />
-        <Content />
-        <Drawer />
-      </div >
-    </AppProvider>
+    <GameProvider>
+      <AppProvider>
+        <div className="App">
+          <DrawerButton />
+          <UserConfigModal />
+          <EndGameModal />
+          <Content />
+          <Drawer />
+        </div >
+      </AppProvider>
+    </GameProvider>
   );
 }
 

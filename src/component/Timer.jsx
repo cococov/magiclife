@@ -2,16 +2,25 @@ import React, { useContext } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import { timer } from '../styles';
-import { GameContext } from '../stores';
+import { GameContext, AppContext } from '../stores';
 
 const Timer = withStyles(timer)(({ classes }) => {
-  const { game, dispatchGame } = useContext(GameContext);
+  const { game, startGame } = useContext(GameContext);
+  const { dispatchGameEnd } = useContext(AppContext);
+
+  const handleClock = () => {
+    if (game.start) {
+      dispatchGameEnd({ type: 'OPEN' });
+    } else {
+      startGame();
+    }
+  };
 
   return (
     <Button
       variant="contained"
       className={classes.button}
-      onClick={() => dispatchGame({ type: `${game.start ? 'STOP' : 'START'}` })}
+      onClick={handleClock}
     >
       {game.start ? `${game.time}` : 'START'}
     </Button>

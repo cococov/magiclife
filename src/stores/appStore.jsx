@@ -2,9 +2,11 @@ import React, {
   useState,
   useEffect,
   useReducer,
+  useContext,
   createContext
 } from 'react';
 import { database } from 'firebase';
+import { GameContext } from '../stores';
 import { drawerReducer, userConfigReducer, gameEndReducer } from './reducer'
 import { drawerInitialState, userConfigInitialState, gameEndInitialState } from './reducer'
 
@@ -23,6 +25,7 @@ export const AppProvider = ({ children }) => {
   const [gameEndState, dispatchGameEnd] = useReducer(gameEndReducer, gameEndInitialState);
   const [drawerState, dispatchDrawer] = useReducer(drawerReducer, drawerInitialState);
   const [users, setUsers] = useState(['noName', 'noName', 'noName', 'noName']);
+  const { finishGame } = useContext(GameContext);
 
   // loads the 4 player names any time that game modal is open
   useEffect(() => {
@@ -37,6 +40,11 @@ export const AppProvider = ({ children }) => {
     setUsers(players);
   }, [gameEndState.isOpenGameModal]);
 
+  // Finish the match
+  const onAcceptGameEnd = () => {
+    dispatchGameEnd({ type: 'ACCEPT', callBack: finishGame });
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -44,6 +52,7 @@ export const AppProvider = ({ children }) => {
         drawerState,
         dispatchDrawer,
         gameEndState,
+        onAcceptGameEnd,
         dispatchGameEnd,
         userConfigState,
         dispatchUserConfig
