@@ -26,6 +26,6 @@ You will also see any lint errors in the console.
 - Make instances of game
 - Make an account system
 - Game history
-- Game log
-- Timer
+- ~Game log~
+- ~Timer~
 - ~Use player nicknames instead playerN° on finish game selects~

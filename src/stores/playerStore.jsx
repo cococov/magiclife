@@ -1,5 +1,6 @@
 import React, {
   useRef,
+  useState,
   useEffect,
   useReducer,
   useContext,
@@ -22,7 +23,10 @@ const PlayerContext = createContext();
 export const PlayerProvider = ({ children, player }) => {
   const [playerState, dispatchPlayer] = useReducer(playerReducer, playerInitialState);
   const { game, addLogLine } = useContext(GameContext);
-  const previousLife = useRef();
+  const [counting, setCounting] = useState(-1);
+  const countingTimeOutRef = useRef();
+  const countingRef = useRef();
+  const previousLifeRef = useRef();
 
   useEffect(() => {
     let ref = database().ref(`player${player}`);
@@ -40,26 +44,53 @@ export const PlayerProvider = ({ children, player }) => {
   }, [player]);
 
   useEffect(() => {
-    let previousValue = previousLife.current;
-    let actualValue = playerState.life;
+    if (counting <= 0) {
+      let previousValue = previousLifeRef.current;
+      let actualValue = playerState.life;
 
-    if (previousValue && game.start) {
-      if (previousValue < actualValue)
-        addLogLine(`[${game.time}] ${playerState.name} | +1 Life`);
-      if (previousValue > actualValue)
-        addLogLine(`[${game.time}] ${playerState.name} | -1 Life`);
+      if (previousValue && game.start) {
+        if (previousValue < actualValue)
+          addLogLine(`[${game.time}] ${playerState.name} | +${(actualValue - previousValue)} Life`);
+        if (previousValue > actualValue)
+          addLogLine(`[${game.time}] ${playerState.name} | -${(previousValue - actualValue)} Life`);
+      }
+      previousLifeRef.current = playerState.life;
     }
-    previousLife.current = playerState.life;
-  }, [playerState.life])
+  }, [playerState.life, playerState.name, game.start, game.time, counting, addLogLine]);
+
+  useEffect(() => {
+    let previousValue = countingRef.current;
+
+    if (previousValue && previousValue !== counting) {
+      if (counting > 0) {
+        countingTimeOutRef.current = setTimeout(() => {
+          setCounting(0);
+        }, 1000);
+      } else if (counting === 0) {
+        let ref = database()
+          .ref(`player${playerState.player}`)
+          .child('life');
+        ref.set(playerState.life);
+      }
+    }
+
+    countingRef.current = counting;
+  }, [counting, playerState.player, playerState.life]);
 
   const plusLife = () => {
-    if (game.start)
+    if (game.start) {
+      clearTimeout(countingTimeOutRef.current);
       dispatchPlayer({ type: 'PLUS_LIFE' });
+      setCounting(((counting <= 0) ? 1 : (counting + 1)));
+    }
   };
 
   const minusLife = () => {
-    if (game.start)
+    if (game.start) {
+      clearTimeout(countingTimeOutRef.current);
       dispatchPlayer({ type: 'MINUS_LIFE' });
+      setCounting(((counting <= 0) ? 1 : (counting + 1)));
+    }
   };
 
   return (

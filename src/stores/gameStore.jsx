@@ -38,6 +38,7 @@ const getFormatDate = difference => {
 export const GameProvider = ({ children }) => {
   const [game, dispatchGame] = useReducer(gameReducer, gameInitialState);
   const intervalRef = useRef();
+  const gameStartRef = useRef();
 
   /*
     timer logic:
@@ -90,28 +91,34 @@ export const GameProvider = ({ children }) => {
   }, [game.start, timer]);
 
   useEffect(() => {
-    if (!game.start) {
-      let ref = database().ref(`endGameStats`);
-      ref.once('value', snapshot => {
-        const result = snapshot.val();
-        dispatchGame({ type: 'ADD_LOG_LINE', value: `[${game.time}] GAME STOPPED` });
-        let winnerLog = result.cup !== '' ? `Winner: ${result.cup}` : '';
-        let carrotLog = result.carrot !== '' ? `Had a bad day: ${result.carrot}` : '';
-        let snailLog = result.snail !== '' ? `Slow as fuck: ${result.snail}` : '';
-        (winnerLog !== '') && dispatchGame({ type: 'ADD_LOG_LINE', value: winnerLog });
-        (carrotLog !== '') && dispatchGame({ type: 'ADD_LOG_LINE', value: carrotLog });
-        (snailLog !== '') && dispatchGame({ type: 'ADD_LOG_LINE', value: snailLog });
-        dispatchGame({ type: 'CLEAN_GAME_END_STATS' });
-      });
+    let previousValue = gameStartRef.current;
+
+    if (previousValue !== game.start) {
+      if (!game.start) {
+        let ref = database().ref(`endGameStats`);
+        ref.once('value', snapshot => {
+          const result = snapshot.val();
+          dispatchGame({ type: 'ADD_LOG_LINE', value: `[${game.time}] GAME STOPPED` });
+          let winnerLog = result.cup !== '' ? `Winner: ${result.cup}` : '';
+          let carrotLog = result.carrot !== '' ? `Had a bad day: ${result.carrot}` : '';
+          let snailLog = result.snail !== '' ? `Slow as fuck: ${result.snail}` : '';
+          (winnerLog !== '') && dispatchGame({ type: 'ADD_LOG_LINE', value: winnerLog });
+          (carrotLog !== '') && dispatchGame({ type: 'ADD_LOG_LINE', value: carrotLog });
+          (snailLog !== '') && dispatchGame({ type: 'ADD_LOG_LINE', value: snailLog });
+          dispatchGame({ type: 'CLEAN_GAME_END_STATS' });
+        });
+      }
     }
-  }, [game.start])
+
+    gameStartRef.current = game.start;
+  }, [game.start, game.time])
 
   /*
     Add a new line to teh match log
   */
-  const addLogLine = logLine => {
+  const addLogLine = useCallback(logLine => {
     dispatchGame({ type: 'ADD_LOG_LINE', value: logLine });
-  };
+  }, []);
 
   /*
     Finish the match

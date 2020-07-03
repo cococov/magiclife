@@ -1,4 +1,3 @@
-import { database } from 'firebase';
 import { primaryColor } from '../../styles';
 
 /* Initial State */
@@ -22,11 +21,9 @@ const playerInitialState = {
 const playerReducer = (state, { type, ...params }) => {
   switch (type) {
     case 'PLUS_LIFE':
-      handlePressPlus(state);
-      break;
+      return { ...state, life: (state.life + 1) };
     case 'MINUS_LIFE':
-      handlePressMinus(state);
-      break;
+      return { ...state, life: (state.life - 1) };
     case 'player':
       return { ...state, player: params.value };
     case 'name':
@@ -51,28 +48,6 @@ const playerReducer = (state, { type, ...params }) => {
 /*
    Methods
  */
-
-/**
- * Send the player life plus 1
- * @param {Object} state - the sate of the player
- */
-const handlePressPlus = state => {
-  let ref = database()
-    .ref(`player${state.player}`)
-    .child('life');
-  ref.set((state.life + 1));
-};
-
-/**
-  * Send the player life minus 1
-  * @param {Object} state - the sate of the player
-  */
-const handlePressMinus = state => {
-  let ref = database()
-    .ref(`player${state.player}`)
-    .child('life');
-  ref.set((state.life - 1));
-};
 
 export {
   playerReducer,
