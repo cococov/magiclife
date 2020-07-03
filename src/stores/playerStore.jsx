@@ -61,7 +61,7 @@ export const PlayerProvider = ({ children, player }) => {
   useEffect(() => {
     let previousValue = countingRef.current;
 
-    if (previousValue && previousValue !== counting) {
+    if (previousValue !== counting) {
       if (counting > 0) {
         countingTimeOutRef.current = setTimeout(() => {
           setCounting(0);
