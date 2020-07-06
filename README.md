@@ -2,7 +2,7 @@
 
 This project is for Magic game purposes, to count the life of every player and trace the winrate.
 
-[Try the app here](https://cococov.github.io/magiclife/)
+[Try the app here](https://magiclife.juanlamas.dev/)
 
 ## Tecnologies used
 - React.js
@@ -21,7 +21,7 @@ You will also see any lint errors in the console.
 
 ## TODO 🚀
 - ~Re-Start Game~
-- Support diferent games (20 life, 40 life, 2 players, 4, etc)
+- Support different games (20 life, 40 life, 2 players, 4, etc)
 - Make profiles instead of 4 static players
 - Make instances of game
 - Make an account system
