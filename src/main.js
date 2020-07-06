@@ -3,10 +3,10 @@ const path = require('path')
 
 function createWindow() {
   const mainWindow = new BrowserWindow({
-    width: 809,
-    height: 860,
-    minWidth: 809,
-    minHeight: 860,
+    width: 1600,
+    height: 950,
+    minWidth: 1600,
+    minHeight: 950,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js')
     }
@@ -14,7 +14,7 @@ function createWindow() {
 
   mainWindow.setMenu(null);
 
-  //mainWindow.loadURL('https://juanlamas.dev/magiclife/');
+  //mainWindow.loadURL('https://magiclife.juanlamas.dev/');
   mainWindow.loadURL('http://localhost:3000/magiclife');
 };
 

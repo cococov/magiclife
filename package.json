@@ -1,18 +1,18 @@
 {
   "name": "magiclife",
   "version": "0.1.0",
-  "homepage": "https://cococov.github.io/magiclife",
+  "homepage": "https://magiclife.juanlamas.dev",
   "license": "LGPL-3.0",
   "private": true,
   "dependencies": {
-    "@material-ui/core": "^4.10.2",
+    "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
     "clsx": "^1.1.1",
-    "firebase": "^7.15.1",
+    "firebase": "^7.15.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
-    "typescript": "^3.9.5"
+    "typescript": "^3.9.6"
   },
   "main": "src/main.js",
   "scripts": {
@@ -41,8 +41,8 @@
     ]
   },
   "devDependencies": {
-    "electron": "^9.0.4",
-    "electron-packager": "^14.2.1",
-    "gh-pages": "^3.0.0"
+    "electron": "^9.0.5",
+    "electron-packager": "^15.0.0",
+    "gh-pages": "^3.1.0"
   }
 }
