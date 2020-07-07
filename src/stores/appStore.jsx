@@ -5,7 +5,8 @@ import React, {
   useContext,
   createContext
 } from 'react';
-import { database } from 'firebase';
+import firebase from '@firebase/app';
+import '@firebase/database';
 import { GameContext } from '../stores';
 import { drawerReducer, userConfigReducer, gameEndReducer } from './reducer'
 import { drawerInitialState, userConfigInitialState, gameEndInitialState } from './reducer'
@@ -31,7 +32,9 @@ export const AppProvider = ({ children }) => {
   useEffect(() => {
     let players = [];
     for (let i = 1; i <= 4; i++) {
-      let ref = database().ref(`player${i}`);
+      let ref = firebase
+        .database()
+        .ref(`player${i}`);
       ref.on('value', snapshot => {
         const result = snapshot.val();
         players.push(result.name);

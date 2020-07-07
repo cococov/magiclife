@@ -1,5 +1,6 @@
 import React from 'react';
-import { initializeApp } from 'firebase';
+import firebase from '@firebase/app';
+import '@firebase/database';
 import {
   Drawer,
   Content,
@@ -10,7 +11,7 @@ import {
 import { AppProvider, GameProvider } from '../stores';
 import '../static/css/App.css';
 
-initializeApp({
+firebase.initializeApp({
   apiKey: process.env.REACT_APP_API_KEY,
   authDomain: process.env.REACT_APP_AUTH_DOMAIN,
   databaseURL: process.env.REACT_APP_DB_URL,

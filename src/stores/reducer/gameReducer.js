@@ -1,4 +1,5 @@
-import { database } from 'firebase';
+import firebase from '@firebase/app';
+import '@firebase/database';
 
 /* Initial State */
 const gameInitialState = {
@@ -65,16 +66,18 @@ const finishGame = gameEndModalState => {
 
   let playerStats = { cup: '', carrot: '', snail: '' };
 
-  // if winer is selected, send it
+  // if winner is selected, send it
   if (gameEndModalState['gameModalCup'] !== 0) {
-    let ref1 = database()
+    let ref1 = firebase
+      .database()
       .ref(`player${gameEndModalState['gameModalCup']}`);
     ref1.on('value', snapshot => {
       const result = snapshot.val();
       playerStats['cup'] = result.name;
       actualCups = result.cup;
     });
-    let cup = database()
+    let cup = firebase
+      .database()
       .ref(`player${gameEndModalState['gameModalCup']}`)
       .child('cup');
     cup.set((actualCups + 1));
@@ -82,14 +85,16 @@ const finishGame = gameEndModalState => {
 
   // if carrot is selected, send it
   if (gameEndModalState['gameModalCarrot'] !== 0) {
-    let ref2 = database()
+    let ref2 = firebase
+      .database()
       .ref(`player${gameEndModalState['gameModalCarrot']}`);
     ref2.on('value', snapshot => {
       const result = snapshot.val();
       playerStats['carrot'] = result.name;
       actualCarrots = result.carrot;
     });
-    let carrot = database()
+    let carrot = firebase
+      .database()
       .ref(`player${gameEndModalState['gameModalCarrot']}`)
       .child('carrot');
     carrot.set((actualCarrots + 1));
@@ -97,20 +102,24 @@ const finishGame = gameEndModalState => {
 
   // if snail is selected, send it
   if (gameEndModalState['gameModalSnail'] !== 0) {
-    let ref3 = database()
+    let ref3 = firebase
+      .database()
       .ref(`player${gameEndModalState['gameModalSnail']}`);
     ref3.on('value', snapshot => {
       const result = snapshot.val();
       playerStats['snail'] = result.name;
       actualSnails = result.snail;
     });
-    let snail = database()
+    let snail = firebase
+      .database()
       .ref(`player${gameEndModalState['gameModalSnail']}`)
       .child('snail');
     snail.set((actualSnails + 1));
   };
 
-  let playerStatsRef = database().ref('endGameStats');
+  let playerStatsRef = firebase
+    .database()
+    .ref('endGameStats');
   playerStatsRef.set(playerStats);
 };
 
@@ -119,7 +128,8 @@ const finishGame = gameEndModalState => {
  */
 const resetGame = () => {
   for (let i = 1; i <= 4; i++) {
-    let ref = database()
+    let ref = firebase
+      .database()
       .ref(`player${i}`)
       .child('life');
     ref.set(40);
@@ -132,7 +142,8 @@ const resetGame = () => {
 const sendDate = date => {
   let strDate = date.toString();
 
-  let ref = database()
+  let ref = firebase
+    .database()
     .ref(`initialDate`);
   ref.set(strDate);
 };
@@ -141,16 +152,18 @@ const sendDate = date => {
  * Send the started value to the backend
  */
 const sendIsStarted = value => {
-  let ref = database()
+  let ref = firebase
+    .database()
     .ref(`isStarted`);
   ref.set(value);
 };
 
 /**
- * Cleand the Game end stats on backend
+ * Cleans the Game end stats on backend
  */
 const cleanGameEndStats = () => {
-  let playerStatsRef = database()
+  let playerStatsRef = firebase
+    .database()
     .ref('endGameStats');
   playerStatsRef.set({ cup: '', carrot: '', snail: '' });
 };

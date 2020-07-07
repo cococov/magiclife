@@ -6,7 +6,8 @@ import React, {
   createContext,
   useLayoutEffect
 } from 'react';
-import { database } from 'firebase';
+import firebase from '@firebase/app';
+import '@firebase/database';
 import { gameReducer, gameInitialState } from './reducer'
 
 /**
@@ -53,11 +54,13 @@ export const GameProvider = ({ children }) => {
   }, [game.initialDate]);
 
   /*
-    request and suscribe to isStarted:
+    request and subscribe to isStarted:
       changes start when it changes on backend.
   */
   useEffect(() => {
-    let ref = database().ref(`isStarted`);
+    let ref = firebase
+      .database()
+      .ref(`isStarted`);
     ref.on('value', snapshot => {
       const result = snapshot.val();
       dispatchGame({ type: 'isStarted', value: result });
@@ -65,11 +68,13 @@ export const GameProvider = ({ children }) => {
   }, []);
 
   /*
-    request and suscribe to initialDate:
-      changes initialDate when it changes on backend (for sync purpuses).
+    request and subscribe to initialDate:
+      changes initialDate when it changes on backend (for sync purposes).
   */
   useLayoutEffect(() => {
-    let ref = database().ref(`initialDate`);
+    let ref = firebase
+      .database()
+      .ref(`initialDate`);
     ref.on('value', snapshot => {
       const result = snapshot.val();
       let date = new Date(result);
@@ -95,7 +100,9 @@ export const GameProvider = ({ children }) => {
 
     if (previousValue !== game.start) {
       if (!game.start) {
-        let ref = database().ref(`endGameStats`);
+        let ref = firebase
+          .database()
+          .ref(`endGameStats`);
         ref.once('value', snapshot => {
           const result = snapshot.val();
           dispatchGame({ type: 'ADD_LOG_LINE', value: `[${game.time}] GAME STOPPED` });

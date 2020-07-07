@@ -6,7 +6,8 @@ import React, {
   useContext,
   createContext
 } from 'react';
-import { database } from 'firebase';
+import firebase from '@firebase/app';
+import '@firebase/database';
 import { playerReducer, playerInitialState } from './reducer';
 import { GameContext } from '../stores';
 
@@ -29,7 +30,9 @@ export const PlayerProvider = ({ children, player }) => {
   const previousLifeRef = useRef();
 
   useEffect(() => {
-    let ref = database().ref(`player${player}`);
+    let ref = firebase
+      .database()
+      .ref(`player${player}`);
     dispatchPlayer({ type: 'player', value: player });
     ref.on('value', snapshot => {
       const result = snapshot.val();
@@ -67,7 +70,8 @@ export const PlayerProvider = ({ children, player }) => {
           setCounting(0);
         }, 1000);
       } else if (counting === 0) {
-        let ref = database()
+        let ref = firebase
+          .database()
           .ref(`player${playerState.player}`)
           .child('life');
         ref.set(playerState.life);

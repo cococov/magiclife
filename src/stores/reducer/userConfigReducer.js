@@ -1,4 +1,5 @@
-import { database } from 'firebase';
+import firebase from '@firebase/app';
+import '@firebase/database';
 
 /* Initial State */
 const userConfigInitialState = {
@@ -20,7 +21,7 @@ const userConfigReducer = (state, { type, ...params }) => {
     case 'OPEN':
       return handleOpenUserConfigModal(params.player);
     case 'ACCEPT':
-      return handleAceptUserConfigModal(state);
+      return handleAcceptUserConfigModal(state);
     case 'CLOSE':
       return { ...state, isOpenUserModal: false };
     case 'modalName':
@@ -47,8 +48,10 @@ const handleOpenUserConfigModal = player => {
   let temporalState = {};
   temporalState['modalPlayer'] = player;
 
-  // Load slected user's config
-  let ref = database().ref(`player${player}`);
+  // Load selected user's config
+  let ref = firebase
+    .database()
+    .ref(`player${player}`);
   ref.on('value', snapshot => {
     const { name, color, textColor } = snapshot.val();
     temporalState['modalName'] = name;
@@ -67,21 +70,24 @@ const handleOpenUserConfigModal = player => {
  * and close modal.
  * @param {Object} state - the state of the reducer
  */
-const handleAceptUserConfigModal = state => {
+const handleAcceptUserConfigModal = state => {
   // send name
-  let name = database()
+  let name = firebase
+    .database()
     .ref(`player${state['modalPlayer']}`)
     .child('name');
   name.set(state['modalName']);
 
   // send background color
-  let color = database()
+  let color = firebase
+    .database()
     .ref(`player${state['modalPlayer']}`)
     .child('color');
   color.set(state['modalColor']);
 
   // send text color
-  let textColor = database()
+  let textColor = firebase
+    .database()
     .ref(`player${state['modalPlayer']}`)
     .child('textColor');
   textColor.set(state['modalTextColor']);
