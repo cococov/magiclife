@@ -52,11 +52,13 @@ export const lifeContainer = theme => ({
     fontSize: '1.13rem',
   },
   minus: {
+    color: 'inherit',
     textTransform: 'uppercase',
     fontSize: '2rem',
     flex: 2
   },
   plus: {
+    color: 'inherit',
     textTransform: 'uppercase',
     fontSize: '2rem',
     flex: 2
@@ -128,7 +130,8 @@ export const endGameModal = theme => ({
     flexDirection: 'column',
     backgroundColor: primaryColor.white,
     minWidth: 500,
-    minHeight: 420,
+    minHeight: 480,
+    padding:25,
     borderRadius: 4,
     '&:focus': {
       outline: 'none',

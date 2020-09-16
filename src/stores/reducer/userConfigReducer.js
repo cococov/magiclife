@@ -76,7 +76,7 @@ const handleAcceptUserConfigModal = state => {
     .database()
     .ref(`player${state['modalPlayer']}`)
     .child('name');
-  name.set(state['modalName']);
+  name.set(state['modalName'].toUpperCase());
 
   // send background color
   let color = firebase

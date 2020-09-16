@@ -3,7 +3,8 @@ const gameEndInitialState = {
   isOpenGameModal: false,
   gameModalCup: 0,
   gameModalSnail: 0,
-  gameModalCarrot: 0
+  gameModalCarrot: 0,
+  downloadLog: false
 };
 
 /**
@@ -27,6 +28,8 @@ const gameEndReducer = (state, { type, ...params }) => {
       return { ...state, gameModalSnail: params.value };
     case 'gameModalCarrot':
       return { ...state, gameModalCarrot: params.value };
+    case 'gameModalDownloadLog':
+      return { ...state, downloadLog: params.value };
     default:
       throw new Error(`Unhandled action type: ${type}`)
   }

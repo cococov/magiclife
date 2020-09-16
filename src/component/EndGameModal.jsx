@@ -8,7 +8,9 @@ import {
   MenuItem,
   Typography,
   InputLabel,
-  FormControl
+  FormControl,
+  FormControlLabel,
+  Checkbox
 } from '@material-ui/core';
 import { endGameModal } from '../styles';
 import { AppContext } from '../stores';
@@ -49,11 +51,11 @@ const EndGameModal = withStyles(endGameModal)(({ classes }) => {
                 })
               }
             >
-              <MenuItem value={0}>Nadie</MenuItem>
-              <MenuItem value={1}>{users[0]}</MenuItem>
-              <MenuItem value={2}>{users[1]}</MenuItem>
-              <MenuItem value={3}>{users[2]}</MenuItem>
-              <MenuItem value={4}>{users[3]}</MenuItem>
+              <MenuItem value={0} key={'Nadie'} >Nadie</MenuItem>
+              <MenuItem value={1} key={'Player1'} >{users[0]?.name}</MenuItem>
+              <MenuItem value={2} key={'Player2'} >{users[1]?.name}</MenuItem>
+              <MenuItem value={3} key={'Player3'} >{users[2]?.name}</MenuItem>
+              <MenuItem value={4} key={'Player4'} >{users[3]?.name}</MenuItem>
             </Select>
           </FormControl>
 
@@ -69,11 +71,11 @@ const EndGameModal = withStyles(endGameModal)(({ classes }) => {
                 })
               }
             >
-              <MenuItem value={0}>Nadie</MenuItem>
-              <MenuItem value={1}>{users[0]}</MenuItem>
-              <MenuItem value={2}>{users[1]}</MenuItem>
-              <MenuItem value={3}>{users[2]}</MenuItem>
-              <MenuItem value={4}>{users[3]}</MenuItem>
+              <MenuItem value={0} key={'Nadie'} >Nadie</MenuItem>
+              <MenuItem value={1} key={'Player1'} >{users[0]?.name}</MenuItem>
+              <MenuItem value={2} key={'Player2'} >{users[1]?.name}</MenuItem>
+              <MenuItem value={3} key={'Player3'} >{users[2]?.name}</MenuItem>
+              <MenuItem value={4} key={'Player4'} >{users[3]?.name}</MenuItem>
             </Select>
           </FormControl>
 
@@ -89,14 +91,22 @@ const EndGameModal = withStyles(endGameModal)(({ classes }) => {
                 })
               }
             >
-              <MenuItem value={0}>Nadie</MenuItem>
-              <MenuItem value={1}>{users[0]}</MenuItem>
-              <MenuItem value={2}>{users[1]}</MenuItem>
-              <MenuItem value={3}>{users[2]}</MenuItem>
-              <MenuItem value={4}>{users[3]}</MenuItem>
+              <MenuItem value={0} key={'Nadie'} >Nadie</MenuItem>
+              <MenuItem value={1} key={'Player1'} >{users[0]?.name}</MenuItem>
+              <MenuItem value={2} key={'Player2'} >{users[1]?.name}</MenuItem>
+              <MenuItem value={3} key={'Player3'} >{users[2]?.name}</MenuItem>
+              <MenuItem value={4} key={'Player4'} >{users[3]?.name}</MenuItem>
             </Select>
           </FormControl>
-
+          <FormControlLabel
+            control={<Checkbox checked={gameEndState.downloadLog} onChange={
+              (e) => dispatchGameEnd({
+                type: 'gameModalDownloadLog',
+                value: !gameEndState.downloadLog
+              })
+            } name="checkedA" />}
+            label="Descargar historial de partida"
+          />
           <Button
             className={classes.modalButton}
             variant="contained"

@@ -9,6 +9,7 @@ import React, {
 import firebase from '@firebase/app';
 import '@firebase/database';
 import { gameReducer, gameInitialState } from './reducer'
+import { useState } from 'react';
 
 /**
  * Game Context.
@@ -38,8 +39,9 @@ const getFormatDate = difference => {
  */
 export const GameProvider = ({ children }) => {
   const [game, dispatchGame] = useReducer(gameReducer, gameInitialState);
+  const [isDownloadChecked,setDownloadChecked ] = useState(false);
   const intervalRef = useRef();
-  const gameStartRef = useRef();
+  const gameStartRef = useRef(false);
 
   /*
     timer logic:
@@ -112,13 +114,15 @@ export const GameProvider = ({ children }) => {
           (winnerLog !== '') && dispatchGame({ type: 'ADD_LOG_LINE', value: winnerLog });
           (carrotLog !== '') && dispatchGame({ type: 'ADD_LOG_LINE', value: carrotLog });
           (snailLog !== '') && dispatchGame({ type: 'ADD_LOG_LINE', value: snailLog });
+          console.log(isDownloadChecked);
           dispatchGame({ type: 'CLEAN_GAME_END_STATS' });
+          if (isDownloadChecked) dispatchGame({ type: 'DOWNLOAD_LOG' });
         });
       }
     }
 
     gameStartRef.current = game.start;
-  }, [game.start, game.time])
+  }, [game.start, game.time, isDownloadChecked])
 
   /*
     Add a new line to teh match log
@@ -132,6 +136,7 @@ export const GameProvider = ({ children }) => {
   */
   const finishGame = params => {
     dispatchGame({ type: 'STOP', value: params });
+    setDownloadChecked(params.downloadLog);
   };
 
   /*
