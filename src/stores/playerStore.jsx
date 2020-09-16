@@ -46,6 +46,7 @@ export const PlayerProvider = ({ children, player }) => {
     });
   }, [player]);
 
+  // TODO: implement this
   useEffect(() => {
     if (counting <= 0) {
       let previousValue = previousLifeRef.current;
@@ -53,9 +54,9 @@ export const PlayerProvider = ({ children, player }) => {
 
       if (previousValue && game.start) {
         if (previousValue < actualValue)
-          addLogLine(`[${game.time}] ${playerState.name} | +${(actualValue - previousValue)} Life`);
+          addLogLine(`[${game.time}] | ${playerState.name} | +${(actualValue - previousValue)} Life`);
         if (previousValue > actualValue)
-          addLogLine(`[${game.time}] ${playerState.name} | -${(previousValue - actualValue)} Life`);
+          addLogLine(`[${game.time}] | ${playerState.name} | -${(previousValue - actualValue)} Life`);
       }
       previousLifeRef.current = playerState.life;
     }
