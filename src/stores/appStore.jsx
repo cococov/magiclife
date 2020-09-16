@@ -25,7 +25,10 @@ export const AppProvider = ({ children }) => {
   const [userConfigState, dispatchUserConfig] = useReducer(userConfigReducer, userConfigInitialState);
   const [gameEndState, dispatchGameEnd] = useReducer(gameEndReducer, gameEndInitialState);
   const [drawerState, dispatchDrawer] = useReducer(drawerReducer, drawerInitialState);
-  const [users, setUsers] = useState(['noName', 'noName', 'noName', 'noName']);
+  const [users, setUsers] = useState([{id:1,name:'noName',color:'#FFF',textColor:'#000'},
+                                      {id:2,name:'noName',color:'#FFF',textColor:'#000'},
+                                      {id:3,name:'noName',color:'#FFF',textColor:'#000'},
+                                      {id:4,name:'noName',color:'#FFF',textColor:'#000'}]);
   const { finishGame } = useContext(GameContext);
 
   // loads the 4 player names any time that game modal is open
@@ -37,7 +40,7 @@ export const AppProvider = ({ children }) => {
         .ref(`player${i}`);
       ref.on('value', snapshot => {
         const result = snapshot.val();
-        players.push(result.name);
+        players.push({id:i,name:result.name,color:result.color,textColor:result.textColor});
       });
     };
     setUsers(players);
@@ -47,6 +50,8 @@ export const AppProvider = ({ children }) => {
   const onAcceptGameEnd = () => {
     dispatchGameEnd({ type: 'ACCEPT', callBack: finishGame });
   };
+
+
 
   return (
     <AppContext.Provider

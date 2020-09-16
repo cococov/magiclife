@@ -46,6 +46,10 @@ const gameReducer = (state, { type, ...params }) => {
       return { ...state, start: params.value, log: newLog };
     case 'initialDate':
       return { ...state, initialDate: params.value };
+    case 'DOWNLOAD_LOG':
+      console.log('EN EL DISPATCH');
+      downloadTxtFile(state.log);
+      return {...state};
     default:
       throw new Error(`Unhandled action type: ${type}`);
   }
@@ -166,6 +170,20 @@ const cleanGameEndStats = () => {
     .database()
     .ref('endGameStats');
   playerStatsRef.set({ cup: '', carrot: '', snail: '' });
+};
+
+/**
+ * Download txt with log
+ */
+const downloadTxtFile = (log) => {
+  console.log(log);
+  const parsedText = log.reduce((accum, actualValue) => `${accum}${actualValue}\n` ,'');
+  const element = document.createElement("a");
+  const file = new Blob([parsedText], {type: 'text/plain'});
+  element.href = URL.createObjectURL(file);
+  element.download = `matchLog-${(new Date()).toString()}.txt`;
+  document.body.appendChild(element); // Required for this to work in FireFox
+  element.click();
 };
 
 export {
