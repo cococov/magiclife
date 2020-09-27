@@ -99,6 +99,7 @@ const EndGameModal = withStyles(endGameModal)(({ classes }) => {
             </Select>
           </FormControl>
           <FormControlLabel
+           className={classes.formControl}
             control={<Checkbox checked={gameEndState.downloadLog} onChange={
               (e) => dispatchGameEnd({
                 type: 'gameModalDownloadLog',

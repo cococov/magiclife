@@ -130,7 +130,7 @@ export const endGameModal = theme => ({
     flexDirection: 'column',
     backgroundColor: primaryColor.white,
     minWidth: 500,
-    minHeight: 480,
+    minHeight: 460,
     padding:25,
     borderRadius: 4,
     '&:focus': {
