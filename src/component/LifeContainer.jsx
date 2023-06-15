@@ -17,7 +17,7 @@ const LifeContainer = withStyles(lifeContainer)(({ classes }) => {
         <Typography className={classes.life} component="p">
           {life}
         </Typography>
-        <Typography className={classes.cup} align="left">
+        {/* <Typography className={classes.cup} align="left">
           {`🏆: ${cups}`}
         </Typography>
         <Typography className={classes.carrot} align="left">
@@ -25,7 +25,7 @@ const LifeContainer = withStyles(lifeContainer)(({ classes }) => {
         </Typography>
         <Typography className={classes.snail} align="left">
           {`🐌: ${snails}`}
-        </Typography>
+        </Typography> */}
       </CardContent>
       <CardActions className={classes.actionContainer}>
         <Button size="small" className={classes.minus} onClick={minusLife}>-</Button>
