@@ -283,7 +283,7 @@ export const timer = theme => ({
     height: '5rem',
     left: 0,
     right: 0,
-    transform: 'translateY(200%)',
+    transform: 'translateY(180%)',
     marginLeft: 'auto',
     marginRight: 'auto',
     backgroundColor: primaryColor.light,
