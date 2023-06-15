@@ -27,7 +27,7 @@ const App = () => {
 
   React.useEffect(() => {
     if (isSmallScreen) {
-      ScreenOrientation.lock("portrait");
+      window.screen.orientation.lock("landscape-primary");
     }
   }, []);
 
