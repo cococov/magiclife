@@ -24,6 +24,13 @@ firebase.initializeApp({
 
 const App = () => {
   const isSmallScreen = useMediaQuery('(max-width: 1000px)');
+
+  React.useEffect(() => {
+    if (isSmallScreen) {
+      ScreenOrientation.lock("portrait");
+    }
+  }, []);
+
   return (
     <GameProvider>
       <AppProvider>
