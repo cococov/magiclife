@@ -5,13 +5,13 @@ import { lifeContainer } from '../styles';
 import { PlayerContext } from '../stores';
 import { useMediaQuery } from '../hooks/useMediaQuery';
 
-const LifeContainer = withStyles(lifeContainer)(({ classes }) => {
+const LifeContainer = withStyles(lifeContainer)(({ classes, isRotated }) => {
   const isSmallScreen = useMediaQuery('(max-width: 1000px)');
   const { playerState, plusLife, minusLife } = useContext(PlayerContext);
 
   const { name, life, cups, carrots, snails, color, textColor } = playerState;
   return (
-    <Card className={isSmallScreen ? classes.rootSmall : classes.root} style={{ backgroundColor: color, color: textColor }} variant="outlined">
+    <Card className={isSmallScreen ? ( isRotated ? classes.rootSmallRotate : classes.rootSmall) : classes.root} style={{ backgroundColor: color, color: textColor }} variant="outlined">
       {isSmallScreen && <Button size="small" className={classes.minus} onClick={minusLife}>-</Button>}
       <CardContent>
         <Typography className={classes.title} gutterBottom>

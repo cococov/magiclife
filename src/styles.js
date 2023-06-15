@@ -39,6 +39,13 @@ export const lifeContainer = theme => ({
     flexGrow: 1,
     flexDirection: 'row',
   },
+  rootSmallRotate: {
+    display: 'flex',
+    flex: 1,
+    flexGrow: 1,
+    flexDirection: 'row',
+    transform: 'rotate(180deg)',
+  },
   title: {
     textTransform: 'uppercase',
     fontWeight: 'bold',
@@ -247,10 +254,10 @@ export const content = theme => ({
     flexDirection: 'column'
   },
   player1Small: {
-    flex: 2
+    flex: 2,
   },
   player2Small: {
-    flex: 2
+    flex: 2,
   },
   player3Small: {
     flex: 2

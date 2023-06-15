@@ -15,20 +15,20 @@ const Content = withStyles(content)(({ classes }) => {
           {!isSmallScreen && <span className={isSmallScreen ? classes.leftSmall : classes.left} />}
           <div className={isSmallScreen ? classes.subContainer1Small : classes.subContainer1}>
             <PlayerProvider player={1}>
-              <LifeContainer className={isSmallScreen ? classes.player1Small : classes.player1} />
+              <LifeContainer className={isSmallScreen ? classes.player1Small : classes.player1} isRotated={true} />
             </PlayerProvider>
 
             <PlayerProvider player={3}>
-              <LifeContainer className={isSmallScreen ? classes.player3Small : classes.player3} />
+              <LifeContainer className={isSmallScreen ? classes.player3Small : classes.player3} isRotated={false} />
             </PlayerProvider>
           </div>
           <div className={isSmallScreen ? classes.subContainer2Small : classes.subContainer2}>
             <PlayerProvider player={2}>
-              <LifeContainer className={isSmallScreen ? classes.player2Small : classes.player2} />
+              <LifeContainer className={isSmallScreen ? classes.player2Small : classes.player2} isRotated={true} />
             </PlayerProvider>
 
             <PlayerProvider player={4}>
-              <LifeContainer className={isSmallScreen ? classes.player4Small : classes.player4} />
+              <LifeContainer className={isSmallScreen ? classes.player4Small : classes.player4} isRotated={false} />
             </PlayerProvider>
           </div>
           {!isSmallScreen && <MatchLog />}
