@@ -3,13 +3,16 @@ import { withStyles } from '@material-ui/core/styles';
 import { Card, CardActions, CardContent, Button, Typography } from '@material-ui/core';
 import { lifeContainer } from '../styles';
 import { PlayerContext } from '../stores';
+import { useMediaQuery } from '../hooks/useMediaQuery';
 
 const LifeContainer = withStyles(lifeContainer)(({ classes }) => {
+  const isSmallScreen = useMediaQuery('(max-width: 1000px)');
   const { playerState, plusLife, minusLife } = useContext(PlayerContext);
 
   const { name, life, cups, carrots, snails, color, textColor } = playerState;
   return (
-    <Card className={classes.root} style={{ backgroundColor: color, color: textColor }} variant="outlined">
+    <Card className={isSmallScreen ? classes.rootSmall : classes.root} style={{ backgroundColor: color, color: textColor }} variant="outlined">
+      {isSmallScreen && <Button size="small" className={classes.minus} onClick={minusLife}>-</Button>}
       <CardContent>
         <Typography className={classes.title} gutterBottom>
           {name}
@@ -27,10 +30,12 @@ const LifeContainer = withStyles(lifeContainer)(({ classes }) => {
           {`🐌: ${snails}`}
         </Typography> */}
       </CardContent>
+      {isSmallScreen && <Button size="small" className={classes.plus} onClick={plusLife}>+</Button>}
+      {!isSmallScreen && (
       <CardActions className={classes.actionContainer}>
         <Button size="small" className={classes.minus} onClick={minusLife}>-</Button>
         <Button size="small" className={classes.plus} onClick={plusLife}>+</Button>
-      </CardActions>
+      </CardActions>)}
     </Card>
   );
 });

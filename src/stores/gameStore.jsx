@@ -114,7 +114,7 @@ export const GameProvider = ({ children }) => {
           (winnerLog !== '') && dispatchGame({ type: 'ADD_LOG_LINE', value: winnerLog });
           (carrotLog !== '') && dispatchGame({ type: 'ADD_LOG_LINE', value: carrotLog });
           (snailLog !== '') && dispatchGame({ type: 'ADD_LOG_LINE', value: snailLog });
-          console.log(isDownloadChecked);
+
           dispatchGame({ type: 'CLEAN_GAME_END_STATS' });
           if (isDownloadChecked) dispatchGame({ type: 'DOWNLOAD_LOG' });
         });

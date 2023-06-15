@@ -9,6 +9,7 @@ import {
   UserConfigModal,
 } from '../component';
 import { AppProvider, GameProvider } from '../stores';
+import { useMediaQuery } from '../hooks/useMediaQuery';
 import '../static/css/App.css';
 
 firebase.initializeApp({
@@ -22,11 +23,12 @@ firebase.initializeApp({
 });
 
 const App = () => {
+  const isSmallScreen = useMediaQuery('(max-width: 1000px)');
   return (
     <GameProvider>
       <AppProvider>
         <div className="App">
-          <DrawerButton />
+          {!isSmallScreen && <DrawerButton />}
           <UserConfigModal />
           <EndGameModal />
           <Content />

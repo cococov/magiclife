@@ -33,6 +33,12 @@ export const lifeContainer = theme => ({
     width: '17rem',
     margin: '2rem'
   },
+  rootSmall: {
+    display: 'flex',
+    flex: 1,
+    flexGrow: 1,
+    flexDirection: 'row',
+  },
   title: {
     textTransform: 'uppercase',
     fontWeight: 'bold',
@@ -219,6 +225,41 @@ export const content = theme => ({
   left: {
     flex: 3,
     width: '28rem'
+  },
+  containerSmall: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+  },
+  lifeLogWrapperSmall: {
+    display: 'flex',
+    flexDirection: 'row',
+    minHeight: '100vh',
+  },
+  subContainer1Small: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  subContainer2Small: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  player1Small: {
+    flex: 2
+  },
+  player2Small: {
+    flex: 2
+  },
+  player3Small: {
+    flex: 2
+  },
+  player4Small: {
+    flex: 2
+  },
+  leftSmall: {
+    display: 'hidden',
   }
 });
 
@@ -228,6 +269,23 @@ export const timer = theme => ({
     minWidth: '10rem',
     minHeight: '5rem',
     alignSelf: 'center',
+    backgroundColor: primaryColor.light,
+    color: primaryColor.text,
+    '&:hover': {
+      backgroundColor: primaryColor.main,
+    },
+  },
+  buttonSmall: {
+    zIndex: 1,
+    position: 'absolute',
+    fontSize: '2rem',
+    width: '10rem',
+    height: '5rem',
+    left: 0,
+    right: 0,
+    transform: 'translateY(200%)',
+    marginLeft: 'auto',
+    marginRight: 'auto',
     backgroundColor: primaryColor.light,
     color: primaryColor.text,
     '&:hover': {
@@ -244,7 +302,6 @@ export const matchLog = theme => ({
     backgroundColor: primaryColor.light,
     width: '28rem',
     height: '40rem',
-    marginTop: '3rem',
     textAlign: 'left',
     fontSize: 'large',
     overflowY: 'scroll'
