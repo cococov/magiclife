@@ -12,12 +12,12 @@ const LifeContainer = withStyles(lifeContainer)(({ classes, isRotated }) => {
   const { name, life, cups, carrots, snails, color, textColor } = playerState;
   return (
     <Card className={isSmallScreen ? ( isRotated ? classes.rootSmallRotate : classes.rootSmall) : classes.root} style={{ backgroundColor: color, color: textColor }} variant="outlined">
-      {isSmallScreen && <Button size="small" className={classes.minus} onClick={minusLife}>-</Button>}
+      {isSmallScreen && <Button size="small" className={classes.minusSmall} onClick={minusLife}>-</Button>}
       <CardContent>
         <Typography className={classes.title} gutterBottom>
           {name}
         </Typography>
-        <Typography className={classes.life} component="p">
+        <Typography className={isSmallScreen ? classes.lifeSmall : classes.life} component="p">
           {life}
         </Typography>
         {/* <Typography className={classes.cup} align="left">
@@ -30,7 +30,7 @@ const LifeContainer = withStyles(lifeContainer)(({ classes, isRotated }) => {
           {`🐌: ${snails}`}
         </Typography> */}
       </CardContent>
-      {isSmallScreen && <Button size="small" className={classes.plus} onClick={plusLife}>+</Button>}
+      {isSmallScreen && <Button size="small" className={classes.plusSmall} onClick={plusLife}>+</Button>}
       {!isSmallScreen && (
       <CardActions className={classes.actionContainer}>
         <Button size="small" className={classes.minus} onClick={minusLife}>-</Button>

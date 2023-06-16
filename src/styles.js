@@ -55,6 +55,10 @@ export const lifeContainer = theme => ({
     textTransform: 'uppercase',
     fontSize: '4rem'
   },
+  lifeSmall: {
+    textTransform: 'uppercase',
+    fontSize: '5rem',
+  },
   cup: {
     fontSize: '1.13rem',
   },
@@ -74,6 +78,18 @@ export const lifeContainer = theme => ({
     color: 'inherit',
     textTransform: 'uppercase',
     fontSize: '2rem',
+    flex: 2
+  },
+  minusSmall: {
+    color: 'inherit',
+    textTransform: 'uppercase',
+    fontSize: '2.5rem',
+    flex: 2
+  },
+  plusSmall: {
+    color: 'inherit',
+    textTransform: 'uppercase',
+    fontSize: '2.5rem',
     flex: 2
   },
   actionContainer: {
