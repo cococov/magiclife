@@ -8,8 +8,8 @@ import React, {
 import firebase from '@firebase/app';
 import '@firebase/database';
 import { GameContext } from '../stores';
-import { drawerReducer, userConfigReducer, gameEndReducer } from './reducer'
-import { drawerInitialState, userConfigInitialState, gameEndInitialState } from './reducer'
+import { drawerReducer, userConfigReducer, gameEndReducer, gameConfigReducer } from './reducer';
+import { drawerInitialState, userConfigInitialState, gameEndInitialState, gameConfigInitialState } from './reducer';
 
 /**
  * App Context.
@@ -24,12 +24,13 @@ const AppContext = createContext();
 export const AppProvider = ({ children }) => {
   const [userConfigState, dispatchUserConfig] = useReducer(userConfigReducer, userConfigInitialState);
   const [gameEndState, dispatchGameEnd] = useReducer(gameEndReducer, gameEndInitialState);
+  const [gameConfigState, dispatchGameConfig] = useReducer(gameConfigReducer, gameConfigInitialState);
   const [drawerState, dispatchDrawer] = useReducer(drawerReducer, drawerInitialState);
-  const [users, setUsers] = useState([{id:1,name:'noName',color:'#FFF',textColor:'#000'},
-                                      {id:2,name:'noName',color:'#FFF',textColor:'#000'},
-                                      {id:3,name:'noName',color:'#FFF',textColor:'#000'},
-                                      {id:4,name:'noName',color:'#FFF',textColor:'#000'}]);
-  const { finishGame } = useContext(GameContext);
+  const [users, setUsers] = useState([{ id: 1, name: 'noName', color: '#FFF', textColor: '#000' },
+  { id: 2, name: 'noName', color: '#FFF', textColor: '#000' },
+  { id: 3, name: 'noName', color: '#FFF', textColor: '#000' },
+  { id: 4, name: 'noName', color: '#FFF', textColor: '#000' }]);
+  const { finishGame, mutateConfigs } = useContext(GameContext);
 
   // loads the 4 player names any time that game modal is open
   useEffect(() => {
@@ -40,7 +41,7 @@ export const AppProvider = ({ children }) => {
         .ref(`player${i}`);
       ref.on('value', snapshot => {
         const result = snapshot.val();
-        players.push({id:i,name:result.name,color:result.color,textColor:result.textColor});
+        players.push({ id: i, name: result.name, color: result.color, textColor: result.textColor });
       });
     };
     setUsers(players);
@@ -51,19 +52,46 @@ export const AppProvider = ({ children }) => {
     dispatchGameEnd({ type: 'ACCEPT', callBack: finishGame });
   };
 
+  // Modify the game configs
+  const onAcceptGameConfig = () => {
+    dispatchGameConfig({ type: 'ACCEPT', callBack: mutateConfigs });
+  };
 
+  const onOpenGameConfig = async () => {
+    let data = {};
+
+    // Load config
+    await firebase.database()
+      .ref('hasTimeLimit')
+      .once('value', snapshot => {
+        data['hasTimeLimit'] = snapshot.val();
+      });
+
+    // Load config
+    await firebase.database()
+      .ref('limitTime')
+      .once('value', snapshot => {
+        data['limitTime'] = snapshot.val();
+      });
+
+      dispatchGameConfig({ type: 'OPEN', payload: data });
+  };
 
   return (
     <AppContext.Provider
       value={{
         users,
         drawerState,
-        dispatchDrawer,
         gameEndState,
-        onAcceptGameEnd,
-        dispatchGameEnd,
+        gameConfigState,
         userConfigState,
-        dispatchUserConfig
+        dispatchDrawer,
+        dispatchGameEnd,
+        dispatchUserConfig,
+        dispatchGameConfig,
+        onAcceptGameEnd,
+        onOpenGameConfig,
+        onAcceptGameConfig,
       }}
     >
       {children}

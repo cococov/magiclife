@@ -11,7 +11,8 @@ import {
 } from '@material-ui/core';
 import {
   People as PeopleIcon,
-  Assignment as AssignmentIcon
+  Assignment as AssignmentIcon,
+  Settings as SettingsIcon,
 } from '@material-ui/icons';
 import { drawer } from '../styles';
 import { AppContext } from '../stores';
@@ -21,6 +22,7 @@ const CustomDrawer = withStyles(drawer)(({ classes }) => {
     drawerState,
     dispatchDrawer,
     dispatchGameEnd,
+    onOpenGameConfig,
     dispatchUserConfig
   } = useContext(AppContext);
 
@@ -70,6 +72,17 @@ const CustomDrawer = withStyles(drawer)(({ classes }) => {
           <Divider />
 
           <List>
+            <ListItem
+              button
+              onClick={onOpenGameConfig}
+            >
+              <ListItemIcon>
+                <SettingsIcon />
+              </ListItemIcon>
+              <ListItemText
+                primary={'Config'}
+              />
+            </ListItem>
             <ListItem
               button
               onClick={() => dispatchGameEnd({ type: 'OPEN' })}

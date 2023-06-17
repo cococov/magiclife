@@ -39,21 +39,9 @@ const getFormatDate = difference => {
  */
 export const GameProvider = ({ children }) => {
   const [game, dispatchGame] = useReducer(gameReducer, gameInitialState);
-  const [isDownloadChecked,setDownloadChecked ] = useState(false);
+  const [isDownloadChecked, setDownloadChecked] = useState(false);
   const intervalRef = useRef();
   const gameStartRef = useRef(false);
-
-  /*
-    timer logic:
-      changes time every second.
-  */
-  const timer = useCallback(() => {
-    let timerInterval = setInterval(() => {
-      let diff = (new Date()).getTime() - game.initialDate.getTime();
-      dispatchGame({ type: 'time', value: getFormatDate(diff) });
-    }, 1000);
-    intervalRef.current = timerInterval;
-  }, [game.initialDate]);
 
   /*
     request and subscribe to isStarted:
@@ -83,6 +71,70 @@ export const GameProvider = ({ children }) => {
       dispatchGame({ type: 'initialDate', value: date });
     });
   }, []);
+
+  /*
+    request and subscribe to limitDate:
+      changes limitDate when it changes on backend (for sync purposes).
+  */
+  useLayoutEffect(() => {
+    let ref = firebase
+      .database()
+      .ref(`limitDate`);
+    ref.on('value', snapshot => {
+      const result = snapshot.val();
+      let date = new Date(result);
+      dispatchGame({ type: 'limitDate', value: date });
+    });
+  }, []);
+
+  /*
+    request and subscribe to limitTime:
+      changes limitTime when it changes on backend (for sync purposes).
+  */
+  useLayoutEffect(() => {
+    let ref = firebase
+      .database()
+      .ref(`limitTime`);
+    ref.on('value', snapshot => {
+      const result = snapshot.val();
+      dispatchGame({ type: 'limitTime', value: result });
+    });
+  }, []);
+
+  /*
+    request and subscribe to hasTimeLimit:
+      changes hasTimeLimit when it changes on backend (for sync purposes).
+  */
+  useLayoutEffect(() => {
+    let ref = firebase
+      .database()
+      .ref(`hasTimeLimit`);
+    ref.on('value', snapshot => {
+      const result = snapshot.val();
+      dispatchGame({ type: 'hasTimeLimit', value: result });
+    });
+  }, []);
+
+  /*
+  timer logic:
+    changes time every second.
+*/
+  const timer = useCallback(() => {
+    clearInterval(intervalRef.current);
+    if (game.hasTimeLimit) {
+      let timerInterval = setInterval(() => {
+        let diff = game.limitDate.getTime() - Date.now();
+        dispatchGame({ type: 'time', value: getFormatDate(diff) });
+      }, 1000);
+      intervalRef.current = timerInterval;
+    } else {
+      let timerInterval = setInterval(() => {
+        let diff = Date.now() - game.initialDate.getTime();
+        dispatchGame({ type: 'time', value: getFormatDate(diff) });
+      }, 1000);
+      intervalRef.current = timerInterval;
+    }
+  }, [game.initialDate, game.limitDate, game.hasTimeLimit]);
 
   /*
     start timer when start changes to true and

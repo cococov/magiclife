@@ -1,11 +1,15 @@
 import firebase from '@firebase/app';
 import '@firebase/database';
+import { createFalse } from 'typescript';
 
 /* Initial State */
 const gameInitialState = {
   start: false,
   initialDate: (new Date()),
+  limitDate: (new Date()),
   time: '00:00:00',
+  hasTimeLimit: false,
+  limitTime: 0,
   log: []
 };
 
@@ -22,9 +26,11 @@ const gameReducer = (state, { type, ...params }) => {
       resetGame();
       cleanGameEndStats();
       let date = new Date();
+      let lDate = new Date(date.getTime() + state.limitTime*60000);
       sendDate(date);
+      sendLimitDate(lDate);
       sendIsStarted(true);
-      return { ...state, start: true, initialDate: date };
+      return { ...state, start: true, initialDate: date, limitTime: lDate };
     case 'STOP':
       sendIsStarted(false);
       finishGame(params.value);
@@ -46,6 +52,12 @@ const gameReducer = (state, { type, ...params }) => {
       return { ...state, start: params.value, log: newLog };
     case 'initialDate':
       return { ...state, initialDate: params.value };
+    case 'limitDate':
+      return { ...state, limitDate: params.value };
+    case 'limitTime':
+      return { ...state, limitTime: params.value };
+    case 'hasTimeLimit':
+      return { ...state, hasTimeLimit: params.value };
     case 'DOWNLOAD_LOG':
       console.log('EN EL DISPATCH');
       downloadTxtFile(state.log);
@@ -149,6 +161,18 @@ const sendDate = date => {
   let ref = firebase
     .database()
     .ref(`initialDate`);
+  ref.set(strDate);
+};
+
+/**
+ * Send the actual date to the backend
+ */
+const sendLimitDate = date => {
+  let strDate = date.toString();
+
+  let ref = firebase
+    .database()
+    .ref(`limitDate`);
   ref.set(strDate);
 };
 

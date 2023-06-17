@@ -7,6 +7,7 @@ import {
   EndGameModal,
   DrawerButton,
   UserConfigModal,
+  GameConfigModal,
 } from '../component';
 import { AppProvider, GameProvider } from '../stores';
 import { useMediaQuery } from '../hooks/useMediaQuery';
@@ -38,6 +39,7 @@ const App = () => {
           {!isSmallScreen && <DrawerButton />}
           <UserConfigModal />
           <EndGameModal />
+          <GameConfigModal />
           <Content />
           <Drawer />
         </div >
